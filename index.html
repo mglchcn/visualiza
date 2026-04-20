@@ -36,15 +36,15 @@
     <!-- CONTENIDO PRINCIPAL DE LA APP (Oculto inicialmente) -->
     <div id="app-content" class="escondido">
         
-        <!-- HEADER -->
+        <!-- HEADER (1. EL LOGO) -->
         <header class="bg-slate-900 text-white p-4 shadow-md sticky top-0 z-10">
             <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="flex items-center space-x-3 w-full sm:w-auto">
                     <!-- Ícono Landmark -->
                     <svg class="h-8 w-8 text-blue-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
                     <div>
-                        <h1 class="text-xl font-bold leading-tight">Sala de Situación</h1>
-                        <p class="text-xs text-slate-400">Centro de Gobierno - Panel de Control</p>
+                        <h1 class="text-xl font-bold leading-tight">Centro de Gobierno Bolivia</h1>
+                        <p class="text-xs text-slate-400">Sala de Situación - Panel de Control</p>
                     </div>
                 </div>
 
@@ -79,7 +79,19 @@
 
         <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
             
-            <!-- SECCIÓN 1: BOTÓN DE GRANDES PRIORIDADES -->
+            <!-- 2. SEMÁFOROS DE LOS PILARES -->
+            <section class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
+                    <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <h2 class="text-xl font-bold text-slate-800">Semáforos de los Pilares</h2>
+                </div>
+                
+                <div id="pilares-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Generado por JS -->
+                </div>
+            </section>
+
+            <!-- 3. GRANDES PRIORIDADES -->
             <section>
                 <button onclick="abrirModalPrioridades()" class="w-full relative overflow-hidden group bg-gradient-to-r from-blue-900 to-indigo-800 hover:from-blue-800 hover:to-indigo-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg transition-all duration-300 transform hover:-translate-y-1 text-left">
                     <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
@@ -101,41 +113,26 @@
                 </button>
             </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- 4. DESEMPEÑO POR MINISTERIO -->
+            <section class="space-y-4">
+                <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
+                    <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    <h2 class="text-xl font-bold text-slate-800">Ranking de Ministerios</h2>
+                </div>
                 
-                <!-- SECCIÓN 2: SEMÁFOROS DE LOS PILARES -->
-                <section class="space-y-4">
-                    <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
-                        <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                        <h2 class="text-xl font-bold text-slate-800">Semáforos de los Pilares</h2>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="bg-slate-100 px-4 py-3 grid grid-cols-12 gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                        <div class="col-span-2 text-center">Rank</div>
+                        <div class="col-span-7">Ministerio</div>
+                        <div class="col-span-3 text-center">Estado</div>
                     </div>
                     
-                    <div id="pilares-container" class="grid grid-cols-1 gap-4">
+                    <div id="ministerios-container" class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto">
                         <!-- Generado por JS -->
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- SECCIÓN 3: DESEMPEÑO POR MINISTERIO -->
-                <section class="space-y-4">
-                    <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
-                        <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                        <h2 class="text-xl font-bold text-slate-800">Ranking de Ministerios</h2>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                        <div class="bg-slate-100 px-4 py-3 grid grid-cols-12 gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
-                            <div class="col-span-2 text-center">Rank</div>
-                            <div class="col-span-7">Ministerio</div>
-                            <div class="col-span-3 text-center">Estado</div>
-                        </div>
-                        
-                        <div id="ministerios-container" class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto">
-                            <!-- Generado por JS -->
-                        </div>
-                    </div>
-                </section>
-
-            </div>
         </main>
         
         <!-- BOTÓN FLOTANTE CONSTANTE: MÁS DETALLES -->
