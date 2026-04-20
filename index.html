@@ -485,7 +485,7 @@
                 text.innerText = "Modo Demostración";
             } else {
                 badge.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium border bg-green-900/50 text-green-200 border-green-700";
-                text.innerText = "Google Sheets Conectado";
+                text.innerText = "Conectado";
             }
             
             const now = new Date();
@@ -535,7 +535,7 @@
             } catch (err) {
                 console.error(err);
                 currentData = MOCK_DATA;
-                document.getElementById('error-message').innerText = "No se pudo leer Google Sheets. Verifica ID y permisos.";
+                document.getElementById('error-message').innerText = "No se pudo leer. Verifica ID y permisos.";
                 document.getElementById('error-alert').classList.remove('escondido');
                 setStatus(true);
             } finally {
