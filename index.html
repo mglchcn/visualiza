@@ -163,7 +163,8 @@
             PRIORIDADES: 'Prioridades',
             PILARES: 'Pilares',
             ACCIONES: 'Acciones',
-            MINISTERIOS: 'Ministerios'
+            MINISTERIOS: 'Ministerios',
+            TAREAS: 'Tareas' // NUEVA PESTAÑA PARA LAS TAREAS DE LOS MINISTERIOS
         };
 
         const MOCK_DATA = {
@@ -197,6 +198,17 @@
                 { id: 3, rank: 3, nombre: 'Ministerio de Salud', estado: 'amarillo', puntaje: 65, detalle: 'Retrasos en la adquisición de equipos médicos. Campaña de vacunación avanza según lo programado.' },
                 { id: 4, rank: 4, nombre: 'Ministerio de Educación', estado: 'amarillo', puntaje: 58, detalle: 'Distribución de material escolar al 80%. Problemas de infraestructura en 15% de las escuelas rurales.' },
                 { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'rojo', puntaje: 35, detalle: 'Retraso de 6 meses en licitaciones públicas. Baja ejecución presupuestaria.' }
+            ],
+            tareas: [
+                { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'verde' },
+                { id: 2, ministerio_id: 1, nombre: 'Reforma Tributaria', estado: 'amarillo' },
+                { id: 3, ministerio_id: 2, nombre: 'Lanzamiento de Bolsa de Empleo', estado: 'verde' },
+                { id: 4, ministerio_id: 2, nombre: 'Inspecciones laborales', estado: 'verde' },
+                { id: 5, ministerio_id: 3, nombre: 'Compra de tomógrafos', estado: 'rojo' },
+                { id: 6, ministerio_id: 3, nombre: 'Contratación de personal médico', estado: 'verde' },
+                { id: 7, ministerio_id: 4, nombre: 'Reparación de techos en escuelas', estado: 'amarillo' },
+                { id: 8, ministerio_id: 5, nombre: 'Licitación Puente Norte', estado: 'rojo' },
+                { id: 9, ministerio_id: 5, nombre: 'Mantenimiento Ruta 5', estado: 'rojo' }
             ]
         };
 
@@ -302,6 +314,20 @@
                                 <span class="font-semibold text-slate-700 block mb-1">Detalle del Semáforo:</span>
                                 <p class="text-slate-600">${min.detalle || 'Sin detalle disponible.'}</p>
                             </div>
+                            
+                            <!-- SECCIÓN DE TAREAS ASIGNADAS -->
+                            <div class="mt-4 border-t border-slate-200 pt-3">
+                                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tareas Asignadas</h4>
+                                <div class="space-y-2">
+                                    ${(min.tareas && min.tareas.length > 0) ? min.tareas.map(tarea => `
+                                        <div class="flex items-center justify-between bg-white p-2 rounded border border-slate-200">
+                                            <span class="text-sm text-slate-700">${tarea.nombre}</span>
+                                            ${getSemaforoIcon(tarea.estado, 20)}
+                                        </div>
+                                    `).join('') : '<p class="text-xs text-slate-400 italic">No hay tareas asignadas registradas.</p>'}
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -444,12 +470,13 @@
                     currentData = MOCK_DATA;
                     setStatus(true);
                 } else {
-                    // Llamadas concurrentes a las 4 pestañas
-                    const [prioridadesRaw, pilaresRaw, accionesRaw, ministeriosRaw] = await Promise.all([
+                    // Llamadas concurrentes a las 5 pestañas
+                    const [prioridadesRaw, pilaresRaw, accionesRaw, ministeriosRaw, tareasRaw] = await Promise.all([
                         fetchSheet(SHEET_NAMES.PRIORIDADES),
                         fetchSheet(SHEET_NAMES.PILARES),
                         fetchSheet(SHEET_NAMES.ACCIONES),
-                        fetchSheet(SHEET_NAMES.MINISTERIOS)
+                        fetchSheet(SHEET_NAMES.MINISTERIOS),
+                        fetchSheet(SHEET_NAMES.TAREAS) // Nueva pestaña
                     ]);
 
                     // Anidar acciones en sus pilares
@@ -458,13 +485,16 @@
                         acciones: accionesRaw.filter(accion => accion.pilar_id === pilar.id)
                     }));
 
-                    // Ordenar Ministerios
-                    const ministeriosOrdenados = ministeriosRaw.sort((a, b) => a.rank - b.rank);
+                    // Anidar tareas en sus ministerios y Ordenarlos
+                    const ministeriosConTareas = ministeriosRaw.map(min => ({
+                        ...min,
+                        tareas: (tareasRaw || []).filter(tarea => tarea.ministerio_id === min.id)
+                    })).sort((a, b) => a.rank - b.rank);
 
                     currentData = {
                         prioridades: prioridadesRaw,
                         pilares: pilaresAnidados,
-                        ministerios: ministeriosOrdenados
+                        ministerios: ministeriosConTareas
                     };
                     setStatus(false);
                 }
