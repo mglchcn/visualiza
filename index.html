@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Gobierno - Sala de Situación</title>
+    <!-- Carga de Tailwind CSS a través de CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilos adicionales para ocultar elementos de forma suave si se requiere */
+        .escondido { display: none !important; }
+        
+        /* Pequeña animación para el modal */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-animate {
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
+
+    <!-- PANTALLA DE CARGA -->
+    <div id="loading-screen" class="min-h-screen flex flex-col items-center justify-center bg-slate-50">
+        <!-- Ícono de recarga girando -->
+        <svg class="h-10 w-10 text-blue-500 animate-spin mb-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <h2 class="text-xl font-bold text-slate-700">Sincronizando con Google Sheets...</h2>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL DE LA APP (Oculto inicialmente) -->
+    <div id="app-content" class="escondido">
+        
+        <!-- HEADER -->
+        <header class="bg-slate-900 text-white p-4 shadow-md sticky top-0 z-10">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <!-- Ícono Landmark -->
+                    <svg class="h-8 w-8 text-blue-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
+                    <div>
+                        <h1 class="text-xl font-bold leading-tight">Sala de Situación</h1>
+                        <p class="text-xs text-slate-400">Centro de Gobierno - Panel de Control</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                    <!-- Indicador de Origen de Datos -->
+                    <div id="status-badge" class="flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium border">
+                        <svg class="h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                        <span id="status-text">Conectando...</span>
+                    </div>
+
+                    <button onclick="loadData()" class="flex items-center space-x-2 text-sm bg-slate-800 hover:bg-slate-700 transition-colors px-3 py-1.5 rounded-full border border-slate-700">
+                        <svg class="h-3.5 w-3.5 text-blue-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        <span id="last-update-text">Act: --:--</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ALERTA DE ERROR (Oculto inicialmente) -->
+        <div id="error-alert" class="max-w-7xl mx-auto mt-4 px-4 escondido">
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-sm">
+                <p class="font-bold">Aviso de Conexión</p>
+                <p class="text-sm"><span id="error-message"></span> Mostrando datos de demostración.</p>
+            </div>
+        </div>
+
+        <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+            
+            <!-- SECCIÓN 1: BOTÓN DE GRANDES PRIORIDADES -->
+            <section>
+                <button onclick="abrirModalPrioridades()" class="w-full relative overflow-hidden group bg-gradient-to-r from-blue-900 to-indigo-800 hover:from-blue-800 hover:to-indigo-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg transition-all duration-300 transform hover:-translate-y-1 text-left">
+                    <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between">
+                        <div class="flex items-center space-x-4 mb-4 sm:mb-0 w-full sm:w-auto">
+                            <div class="p-3 bg-white/10 rounded-xl hidden sm:block">
+                                <svg class="h-10 w-10 text-blue-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                            </div>
+                            <div class="text-left">
+                                <h2 class="text-2xl sm:text-3xl font-bold">Las Grandes Prioridades</h2>
+                                <p class="text-blue-200 mt-1">Monitoreo Presidencial Estratégico</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 bg-white/20 px-4 py-2 rounded-lg backdrop-blur-sm self-start sm:self-auto">
+                            <span>Ver Semáforos</span>
+                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        </div>
+                    </div>
+                </button>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- SECCIÓN 2: SEMÁFOROS DE LOS PILARES -->
+                <section class="space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
+                        <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        <h2 class="text-xl font-bold text-slate-800">Semáforos de los Pilares</h2>
+                    </div>
+                    
+                    <div id="pilares-container" class="grid grid-cols-1 gap-4">
+                        <!-- Generado por JS -->
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: DESEMPEÑO POR MINISTERIO -->
+                <section class="space-y-4">
+                    <div class="flex items-center space-x-2 border-b border-slate-200 pb-2">
+                        <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                        <h2 class="text-xl font-bold text-slate-800">Ranking de Ministerios</h2>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <div class="bg-slate-100 px-4 py-3 grid grid-cols-12 gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                            <div class="col-span-2 text-center">Rank</div>
+                            <div class="col-span-7">Ministerio</div>
+                            <div class="col-span-3 text-center">Estado</div>
+                        </div>
+                        
+                        <div id="ministerios-container" class="divide-y divide-slate-100 max-h-[600px] overflow-y-auto">
+                            <!-- Generado por JS -->
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: SEMÁFORO DE GRANDES PRIORIDADES (Oculto inicialmente) -->
+    <div id="modal-prioridades" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
+            
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center space-x-3">
+                    <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    <h2 class="text-xl font-bold text-slate-800">Semáforo de Grandes Prioridades</h2>
+                </div>
+                <button onclick="cerrarModalPrioridades()" class="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-500">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            
+            <div class="p-6 overflow-y-auto">
+                <div id="prioridades-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Generado por JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LÓGICA DE JAVASCRIPT -->
+    <script>
+        // ============================================================================
+        // CONFIGURACIÓN
+        // ============================================================================
+        // Puedes pegar la URL completa o solo el ID. El código extraerá el ID automáticamente.
+        const SPREADSHEET_ID = '1mq2kuzRNc2oC8c3vLXN6ex9z4JihfUUbCmr6GKMuYeQ';
+        
+        const SHEET_NAMES = {
+            PRIORIDADES: 'Prioridades',
+            PILARES: 'Pilares',
+            ACCIONES: 'Acciones',
+            MINISTERIOS: 'Ministerios'
+        };
+
+        const MOCK_DATA = {
+            prioridades: [
+                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'verde', avance: '85%' },
+                { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'amarillo', avance: '62%' },
+                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'rojo', avance: '30%' },
+                { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'verde', avance: '78%' },
+            ],
+            pilares: [
+                {
+                    id: 1, nombre: 'Desarrollo Económico', estado: 'verde',
+                    acciones: [
+                        { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'verde' },
+                        { id: 12, pilar_id: 1, nombre: 'Programa de créditos a PYMES', estado: 'verde' },
+                        { id: 13, pilar_id: 1, nombre: 'Reducción del déficit fiscal', estado: 'amarillo' },
+                    ]
+                },
+                {
+                    id: 2, nombre: 'Desarrollo Social', estado: 'amarillo',
+                    acciones: [
+                        { id: 21, pilar_id: 2, nombre: 'Construcción de viviendas sociales', estado: 'amarillo' },
+                        { id: 22, pilar_id: 2, nombre: 'Ampliación de cobertura de agua potable', estado: 'verde' },
+                        { id: 23, pilar_id: 2, nombre: 'Reducción de pobreza extrema', estado: 'rojo' },
+                    ]
+                }
+            ],
+            ministerios: [
+                { id: 1, rank: 1, nombre: 'Ministerio de Economía y Finanzas', estado: 'verde', puntaje: 92, detalle: 'Ejecución presupuestaria al 95%. Cumplimiento de metas de recaudación superado en un 5%.' },
+                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', estado: 'verde', puntaje: 88, detalle: 'Implementación exitosa del programa "Mi Primer Empleo". Reducción de la tasa de desempleo en 1.2%.' },
+                { id: 3, rank: 3, nombre: 'Ministerio de Salud', estado: 'amarillo', puntaje: 65, detalle: 'Retrasos en la adquisición de equipos médicos. Campaña de vacunación avanza según lo programado.' },
+                { id: 4, rank: 4, nombre: 'Ministerio de Educación', estado: 'amarillo', puntaje: 58, detalle: 'Distribución de material escolar al 80%. Problemas de infraestructura en 15% de las escuelas rurales.' },
+                { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'rojo', puntaje: 35, detalle: 'Retraso de 6 meses en licitaciones públicas. Baja ejecución presupuestaria.' }
+            ]
+        };
+
+        // ESTADOS GLOBALES
+        let currentData = { prioridades: [], pilares: [], ministerios: [] };
+
+        // ============================================================================
+        // FUNCIONES DE DIBUJO (UI) Y SVGs
+        // ============================================================================
+        function getSemaforoIcon(estado, size = 24) {
+            const est = (estado || '').toLowerCase().trim();
+            if (est === 'verde') {
+                return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#bbf7d0" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`;
+            } else if (est === 'amarillo') {
+                return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#fef08a" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+            } else if (est === 'rojo') {
+                return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#fecaca" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
+            }
+            return `<div style="width: ${size-4}px; height: ${size-4}px;" class="rounded-full bg-gray-300"></div>`;
+        }
+
+        function getColorBadge(estado) {
+            const est = (estado || '').toLowerCase().trim();
+            if (est === 'verde') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-green-100 text-green-800 border-green-200">Óptimo</span>`;
+            if (est === 'amarillo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">En Riesgo</span>`;
+            if (est === 'rojo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-red-100 text-red-800 border-red-200">Crítico</span>`;
+            return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-slate-100 text-slate-800 border-slate-200">Sin Datos</span>`;
+        }
+
+        function getBgColorByEstado(estado) {
+            const est = (estado || '').toLowerCase().trim();
+            if (est === 'verde') return 'bg-green-500';
+            if (est === 'amarillo') return 'bg-yellow-400';
+            if (est === 'rojo') return 'bg-red-500';
+            return 'bg-slate-300';
+        }
+
+        const iconChevronDown = `<svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`;
+        const iconChevronUp = `<svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>`;
+
+        // ============================================================================
+        // RENDERIZADO DE CONTENIDO
+        // ============================================================================
+        function renderPilares() {
+            const container = document.getElementById('pilares-container');
+            container.innerHTML = currentData.pilares.map(pilar => `
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden transition-all hover:shadow-md">
+                    <div class="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50" onclick="togglePilar(${pilar.id})">
+                        <div class="flex items-center space-x-4">
+                            ${getSemaforoIcon(pilar.estado, 32)}
+                            <div>
+                                <h3 class="font-semibold text-lg text-slate-800">${pilar.nombre}</h3>
+                                <p class="text-sm text-slate-500">${pilar.acciones ? pilar.acciones.length : 0} acciones prioritarias</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            ${getColorBadge(pilar.estado)}
+                            <div id="pilar-chevron-${pilar.id}">${iconChevronDown}</div>
+                        </div>
+                    </div>
+                    
+                    <div id="pilar-detalle-${pilar.id}" class="escondido bg-slate-50 border-t border-slate-100 p-4 space-y-3">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Detalle de Acciones</h4>
+                        ${(pilar.acciones || []).map(accion => `
+                            <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-200">
+                                <span class="text-sm font-medium text-slate-700">${accion.nombre}</span>
+                                ${getSemaforoIcon(accion.estado, 20)}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMinisterios() {
+            const container = document.getElementById('ministerios-container');
+            container.innerHTML = currentData.ministerios.map(min => `
+                <div class="flex flex-col border-b border-slate-100 last:border-0">
+                    <div class="grid grid-cols-12 gap-2 px-4 py-3 items-center cursor-pointer transition-colors hover:bg-slate-50" id="min-row-${min.id}" onclick="toggleMinisterio(${min.id})">
+                        <div class="col-span-2 flex justify-center">
+                            <span class="flex items-center justify-center w-8 h-8 rounded-full font-bold ${min.rank <= 3 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}">
+                                #${min.rank}
+                            </span>
+                        </div>
+                        <div class="col-span-7 font-medium text-slate-800 truncate" title="${min.nombre}">
+                            ${min.nombre}
+                        </div>
+                        <div class="col-span-3 flex justify-center items-center space-x-2">
+                            ${getSemaforoIcon(min.estado, 24)}
+                        </div>
+                    </div>
+                    
+                    <div id="min-detalle-${min.id}" class="escondido px-6 py-4 bg-blue-50 border-t border-blue-100 text-sm">
+                        <div class="flex flex-col space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="font-semibold text-slate-700">Índice de Desempeño General:</span>
+                                <span class="font-bold text-lg">${min.puntaje || 0}/100</span>
+                            </div>
+                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                <div class="h-2 rounded-full ${getBgColorByEstado(min.estado)}" style="width: ${min.puntaje || 0}%"></div>
+                            </div>
+                            <div class="bg-white p-3 rounded-md border border-slate-200 shadow-sm mt-2">
+                                <span class="font-semibold text-slate-700 block mb-1">Detalle del Semáforo:</span>
+                                <p class="text-slate-600">${min.detalle || 'Sin detalle disponible.'}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPrioridadesModal() {
+            const container = document.getElementById('prioridades-container');
+            container.innerHTML = currentData.prioridades.map(prio => `
+                <div class="relative bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="absolute top-0 left-0 right-0 h-1.5 rounded-t-xl ${getBgColorByEstado(prio.estado)}"></div>
+                    
+                    <div class="flex justify-between items-start mt-2 mb-4">
+                        <h3 class="font-bold text-lg text-slate-800 leading-tight pr-4">${prio.nombre}</h3>
+                        ${getSemaforoIcon(prio.estado, 36)}
+                    </div>
+                    
+                    <div class="space-y-2 mt-auto">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-slate-500">Avance de metas clave</span>
+                            <span class="font-bold text-slate-700">${prio.avance || '0%'}</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2.5">
+                            <div class="h-2.5 rounded-full ${getBgColorByEstado(prio.estado)}" style="width: ${prio.avance || '0%'}"></div>
+                        </div>
+                        <div class="pt-2 flex justify-end">
+                            ${getColorBadge(prio.estado)}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============================================================================
+        // INTERACCIONES (Acordeones y Modales)
+        // ============================================================================
+        function togglePilar(id) {
+            const detalle = document.getElementById(`pilar-detalle-${id}`);
+            const chevron = document.getElementById(`pilar-chevron-${id}`);
+            
+            if (detalle.classList.contains('escondido')) {
+                detalle.classList.remove('escondido');
+                chevron.innerHTML = iconChevronUp;
+            } else {
+                detalle.classList.add('escondido');
+                chevron.innerHTML = iconChevronDown;
+            }
+        }
+
+        // Para mantener solo un ministerio abierto a la vez
+        let ministerioAbiertoActual = null;
+
+        function toggleMinisterio(id) {
+            const detalle = document.getElementById(`min-detalle-${id}`);
+            const fila = document.getElementById(`min-row-${id}`);
+
+            // Si hay uno abierto distinto al que clickeamos, lo cerramos
+            if (ministerioAbiertoActual && ministerioAbiertoActual !== id) {
+                const viejoDetalle = document.getElementById(`min-detalle-${ministerioAbiertoActual}`);
+                const viejaFila = document.getElementById(`min-row-${ministerioAbiertoActual}`);
+                if(viejoDetalle) viejoDetalle.classList.add('escondido');
+                if(viejaFila) viejaFila.classList.remove('bg-blue-50');
+            }
+
+            if (detalle.classList.contains('escondido')) {
+                detalle.classList.remove('escondido');
+                fila.classList.add('bg-blue-50');
+                ministerioAbiertoActual = id;
+            } else {
+                detalle.classList.add('escondido');
+                fila.classList.remove('bg-blue-50');
+                ministerioAbiertoActual = null;
+            }
+        }
+
+        function abrirModalPrioridades() {
+            document.getElementById('modal-prioridades').classList.remove('escondido');
+        }
+
+        function cerrarModalPrioridades() {
+            document.getElementById('modal-prioridades').classList.add('escondido');
+        }
+
+        // ============================================================================
+        // LÓGICA DE OBTENCIÓN DE DATOS (API GOOGLE SHEETS)
+        // ============================================================================
+        function parseGoogleSheetJSON(text) {
+            const jsonStr = text.substring(47).slice(0, -2);
+            const json = JSON.parse(jsonStr);
+            const cols = json.table.cols.map(c => c ? c.label.toLowerCase().trim() : '');
+            
+            return json.table.rows.map(row => {
+                const obj = {};
+                row.c.forEach((cell, i) => {
+                    if (cols[i]) obj[cols[i]] = cell ? cell.v : null;
+                });
+                return obj;
+            });
+        }
+
+        async function fetchSheet(sheetName) {
+            // Extraer automáticamente el ID en caso de que se haya pegado la URL completa
+            let actualId = SPREADSHEET_ID;
+            if (actualId.includes('/d/')) {
+                actualId = actualId.split('/d/')[1].split('/')[0];
+            }
+
+            const url = `https://docs.google.com/spreadsheets/d/${actualId}/gviz/tq?tqx=out:json&sheet=${sheetName}`;
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Error al cargar la pestaña: ${sheetName}`);
+            const text = await response.text();
+            return parseGoogleSheetJSON(text);
+        }
+
+        function setStatus(isDemo) {
+            const badge = document.getElementById('status-badge');
+            const text = document.getElementById('status-text');
+            
+            if (isDemo) {
+                badge.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium border bg-amber-900/50 text-amber-200 border-amber-700";
+                text.innerText = "Modo Demostración";
+            } else {
+                badge.className = "flex items-center space-x-1.5 px-3 py-1.5 rounded-full text-xs font-medium border bg-green-900/50 text-green-200 border-green-700";
+                text.innerText = "Google Sheets Conectado";
+            }
+            
+            const now = new Date();
+            document.getElementById('last-update-text').innerText = `Act: ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        }
+
+        async function loadData() {
+            // Mostrar carga
+            document.getElementById('loading-screen').classList.remove('escondido');
+            document.getElementById('app-content').classList.add('escondido');
+            document.getElementById('error-alert').classList.add('escondido');
+
+            try {
+                if (!SPREADSHEET_ID) {
+                    // Fallback a MOCK
+                    currentData = MOCK_DATA;
+                    setStatus(true);
+                } else {
+                    // Llamadas concurrentes a las 4 pestañas
+                    const [prioridadesRaw, pilaresRaw, accionesRaw, ministeriosRaw] = await Promise.all([
+                        fetchSheet(SHEET_NAMES.PRIORIDADES),
+                        fetchSheet(SHEET_NAMES.PILARES),
+                        fetchSheet(SHEET_NAMES.ACCIONES),
+                        fetchSheet(SHEET_NAMES.MINISTERIOS)
+                    ]);
+
+                    // Anidar acciones en sus pilares
+                    const pilaresAnidados = pilaresRaw.map(pilar => ({
+                        ...pilar,
+                        acciones: accionesRaw.filter(accion => accion.pilar_id === pilar.id)
+                    }));
+
+                    // Ordenar Ministerios
+                    const ministeriosOrdenados = ministeriosRaw.sort((a, b) => a.rank - b.rank);
+
+                    currentData = {
+                        prioridades: prioridadesRaw,
+                        pilares: pilaresAnidados,
+                        ministerios: ministeriosOrdenados
+                    };
+                    setStatus(false);
+                }
+            } catch (err) {
+                console.error(err);
+                currentData = MOCK_DATA;
+                document.getElementById('error-message').innerText = "No se pudo leer Google Sheets. Verifica ID y permisos.";
+                document.getElementById('error-alert').classList.remove('escondido');
+                setStatus(true);
+            } finally {
+                // Renderizar todos los contenedores
+                renderPilares();
+                renderMinisterios();
+                renderPrioridadesModal();
+
+                // Ocultar carga y mostrar app
+                document.getElementById('loading-screen').classList.add('escondido');
+                document.getElementById('app-content').classList.remove('escondido');
+            }
+        }
+
+        // ============================================================================
+        // INICIO DE LA APLICACIÓN
+        // ============================================================================
+        window.onload = loadData;
+
+    </script>
+</body>
+</html>
