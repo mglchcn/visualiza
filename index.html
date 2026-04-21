@@ -215,6 +215,7 @@
                         { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'verde' },
                         { id: 12, pilar_id: 1, nombre: 'Programa de créditos a PYMES', estado: 'verde' },
                         { id: 13, pilar_id: 1, nombre: 'Reducción del déficit fiscal', estado: 'amarillo' },
+                        { id: 14, pilar_id: 1, nombre: 'Plan de Industrialización 2025', estado: 'no iniciado' }
                     ]
                 },
                 {
@@ -242,7 +243,8 @@
                 { id: 6, ministerio_id: 3, nombre: 'Contratación de personal médico', estado: 'verde' },
                 { id: 7, ministerio_id: 4, nombre: 'Reparación de techos en escuelas', estado: 'amarillo' },
                 { id: 8, ministerio_id: 5, nombre: 'Licitación Puente Norte', estado: 'rojo' },
-                { id: 9, ministerio_id: 5, nombre: 'Mantenimiento Ruta 5', estado: 'rojo' }
+                { id: 9, ministerio_id: 5, nombre: 'Mantenimiento Ruta 5', estado: 'rojo' },
+                { id: 10, ministerio_id: 1, nombre: 'Análisis de deuda externa', estado: 'no iniciado' }
             ]
         };
 
@@ -254,29 +256,33 @@
         // ============================================================================
         function getSemaforoIcon(estado, size = 24) {
             const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde') {
+            if (est === 'verde' || est === 'completado') {
                 return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#bbf7d0" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`;
-            } else if (est === 'amarillo') {
+            } else if (est === 'amarillo' || est === 'en proceso') {
                 return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#fef08a" stroke="#eab308" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
-            } else if (est === 'rojo') {
+            } else if (est === 'rojo' || est === 'pendiente') {
                 return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#fecaca" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`;
+            } else if (est === 'gris' || est === 'no iniciado') {
+                return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>`;
             }
             return `<div style="width: ${size-4}px; height: ${size-4}px;" class="rounded-full bg-gray-300"></div>`;
         }
 
         function getColorBadge(estado) {
             const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-green-100 text-green-800 border-green-200">Completado</span>`;
-            if (est === 'amarillo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">En Proceso</span>`;
-            if (est === 'rojo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-red-100 text-red-800 border-red-200">Pendiente</span>`;
+            if (est === 'verde' || est === 'completado') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-green-100 text-green-800 border-green-200">Completado</span>`;
+            if (est === 'amarillo' || est === 'en proceso') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">En Proceso</span>`;
+            if (est === 'rojo' || est === 'pendiente') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-red-100 text-red-800 border-red-200">Pendiente</span>`;
+            if (est === 'gris' || est === 'no iniciado') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-slate-100 text-slate-600 border-slate-300">No Iniciado</span>`;
             return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-slate-100 text-slate-800 border-slate-200">Sin Datos</span>`;
         }
 
         function getBgColorByEstado(estado) {
             const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde') return 'bg-green-500';
-            if (est === 'amarillo') return 'bg-yellow-400';
-            if (est === 'rojo') return 'bg-red-500';
+            if (est === 'verde' || est === 'completado') return 'bg-green-500';
+            if (est === 'amarillo' || est === 'en proceso') return 'bg-yellow-400';
+            if (est === 'rojo' || est === 'pendiente') return 'bg-red-500';
+            if (est === 'gris' || est === 'no iniciado') return 'bg-slate-400';
             return 'bg-slate-300';
         }
 
