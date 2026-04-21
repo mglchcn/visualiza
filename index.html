@@ -266,9 +266,9 @@
 
         function getColorBadge(estado) {
             const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-green-100 text-green-800 border-green-200">Óptimo</span>`;
-            if (est === 'amarillo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">En Riesgo</span>`;
-            if (est === 'rojo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-red-100 text-red-800 border-red-200">Crítico</span>`;
+            if (est === 'verde') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-green-100 text-green-800 border-green-200">Completado</span>`;
+            if (est === 'amarillo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">En Proceso</span>`;
+            if (est === 'rojo') return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-red-100 text-red-800 border-red-200">Pendiente</span>`;
             return `<span class="px-2 py-1 text-xs font-medium rounded-full border bg-slate-100 text-slate-800 border-slate-200">Sin Datos</span>`;
         }
 
