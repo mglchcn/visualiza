@@ -123,7 +123,7 @@
                             </div>
                             <div class="text-left">
                                 <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-800">Desempeño de Ministerios</h2>
-                                <p class="text-slate-500 mt-1 font-medium">Ranking y evaluación de gestión</p>
+                                <p class="text-slate-500 mt-1 font-medium">Evaluación de gestión</p>
                             </div>
                         </div>
                         <div class="flex items-center space-x-2 bg-slate-100 text-slate-700 px-5 py-2.5 rounded-lg border border-slate-200 transition-colors group-hover:bg-slate-200 group-hover:text-slate-900 self-start sm:self-auto">
@@ -144,7 +144,7 @@
         
     </div>
 
-    <!-- MODAL: SEMÁFORO DE GRANDES PRIORIDADES (Oculto inicialmente) -->
+    <!-- MODAL: SEMÁFORO DE GRANDES PRIORIDADES -->
     <div id="modal-prioridades" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -164,13 +164,13 @@
         </div>
     </div>
 
-    <!-- MODAL: LISTA DE MINISTERIOS (Nuevo modal) -->
+    <!-- MODAL: LISTA DE MINISTERIOS -->
     <div id="modal-lista-ministerios" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                 <div class="flex items-center space-x-3">
                     <svg class="h-6 w-6 text-slate-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-                    <h2 class="text-xl font-bold text-slate-800">Ranking de Ministerios</h2>
+                    <h2 class="text-xl font-bold text-slate-800">Desempeño de Ministerios</h2>
                 </div>
                 <button onclick="cerrarModalListaMinisterios()" class="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-500">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -178,7 +178,7 @@
             </div>
             
             <div class="bg-slate-100 px-4 py-3 grid grid-cols-12 gap-2 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
-                <div class="col-span-2 text-center">Rank</div>
+                <div class="col-span-2 text-center">Nº</div>
                 <div class="col-span-7">Ministerio</div>
                 <div class="col-span-3 text-center">Estado</div>
             </div>
@@ -191,7 +191,7 @@
         </div>
     </div>
 
-    <!-- MODAL: DETALLE PILAR (Nuevo modal) -->
+    <!-- MODAL: DETALLE PILAR -->
     <div id="modal-pilar" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -212,7 +212,7 @@
         </div>
     </div>
 
-    <!-- MODAL: DETALLE MINISTERIO (Nuevo modal) -->
+    <!-- MODAL: DETALLE MINISTERIO -->
     <div id="modal-ministerio" class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -233,10 +233,6 @@
                     <div class="w-full bg-slate-200 rounded-full h-2">
                         <div id="modal-ministerio-barra" class="h-2 rounded-full bg-slate-300" style="width: 0%"></div>
                     </div>
-                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 shadow-sm mt-2">
-                        <span class="font-semibold text-slate-700 block mb-2">Detalle del Semáforo:</span>
-                        <p id="modal-ministerio-detalle" class="text-slate-600 text-sm"></p>
-                    </div>
                     
                     <!-- SECCIÓN DE TAREAS ASIGNADAS -->
                     <div class="mt-4 border-t border-slate-200 pt-4">
@@ -250,8 +246,52 @@
         </div>
     </div>
 
+    <!-- MODAL: FICHA INFORMATIVA INDIVIDUAL (Para Prioridades, Acciones y Tareas) -->
+    <div id="modal-ficha" class="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm transition-opacity escondido">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] modal-animate">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div class="flex items-center space-x-3">
+                    <svg class="h-6 w-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    <h2 class="text-xl font-bold text-slate-800">Ficha Informativa</h2>
+                </div>
+                <button onclick="cerrarModalFicha()" class="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-500">
+                    <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto">
+                <div class="flex flex-col space-y-5">
+                    <div>
+                        <h3 id="ficha-titulo" class="text-lg font-bold text-slate-800 leading-tight"></h3>
+                        <p id="ficha-subtitulo" class="text-sm text-slate-500 mt-1 font-medium uppercase tracking-wide"></p>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <span class="text-sm font-semibold text-slate-700">Estado Actual:</span>
+                        <div id="ficha-estado"></div>
+                    </div>
+
+                    <div id="ficha-avance-container" class="escondido bg-slate-50 p-4 rounded-lg border border-slate-100">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-slate-700">Avance Reportado:</span>
+                            <span id="ficha-avance-texto" class="font-bold text-slate-800"></span>
+                        </div>
+                        <div class="w-full bg-slate-200 rounded-full h-2">
+                            <div id="ficha-avance-barra" class="h-2 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Descripción Detallada</h4>
+                        <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 shadow-sm text-sm text-slate-700 leading-relaxed whitespace-pre-wrap" id="ficha-descripcion">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL: INSTRUCCIONES DE INSTALACIÓN -->
-    <div id="modal-instalar" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
+    <div id="modal-instalar" class="fixed inset-0 z-[80] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity escondido">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden flex flex-col modal-animate">
             <div class="p-6 text-center space-y-4">
                 <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto">
@@ -288,16 +328,16 @@
 
         const MOCK_DATA = {
             prioridades: [
-                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'verde', avance: '85%' },
-                { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'amarillo', avance: '62%' },
-                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'rojo', avance: '30%' },
-                { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'verde', avance: '78%' },
+                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'verde', avance: '85%', descripcion: 'Promoción de políticas públicas orientadas al crecimiento del sector productivo nacional.' },
+                { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'amarillo', avance: '62%', descripcion: 'Fortalecimiento de las capacidades operativas y preventivas de las fuerzas del orden.' },
+                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'rojo', avance: '30%', descripcion: 'Actualización de currículas y modernización de la infraestructura escolar.' },
+                { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'verde', avance: '78%', descripcion: 'Expansión del seguro universal de salud y campañas de prevención.' },
             ],
             pilares: [
                 {
                     id: 1, nombre: 'Desarrollo Económico', estado: 'verde',
                     acciones: [
-                        { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'verde' },
+                        { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'verde', descripcion: 'Ruedas de negocios internacionales y simplificación de trámites.' },
                         { id: 12, pilar_id: 1, nombre: 'Programa de créditos a PYMES', estado: 'verde' },
                         { id: 13, pilar_id: 1, nombre: 'Reducción del déficit fiscal', estado: 'amarillo' },
                         { id: 14, pilar_id: 1, nombre: 'Plan de Industrialización 2025', estado: 'no iniciado' }
@@ -320,7 +360,7 @@
                 { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'rojo', puntaje: 35, detalle: 'Retraso de 6 meses en licitaciones públicas. Baja ejecución presupuestaria.' }
             ],
             tareas: [
-                { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'verde' },
+                { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'verde', descripcion: 'Trámite finalizado y aprobado por el poder legislativo.' },
                 { id: 2, ministerio_id: 1, nombre: 'Reforma Tributaria', estado: 'amarillo' },
                 { id: 3, ministerio_id: 2, nombre: 'Lanzamiento de Bolsa de Empleo', estado: 'verde' },
                 { id: 4, ministerio_id: 2, nombre: 'Inspecciones laborales', estado: 'verde' },
@@ -423,7 +463,7 @@
         function renderPrioridadesModal() {
             const container = document.getElementById('prioridades-container');
             container.innerHTML = currentData.prioridades.map(prio => `
-                <div class="relative bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+                <div class="relative bg-white border border-slate-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer hover:bg-slate-50 transform hover:-translate-y-1" onclick="abrirFichaPrioridad(${prio.id})">
                     <div class="absolute top-0 left-0 right-0 h-1.5 rounded-t-xl ${getBgColorByEstado(prio.estado)}"></div>
                     
                     <div class="flex justify-between items-start mt-2 mb-4">
@@ -477,9 +517,12 @@
             const contenido = document.getElementById('modal-pilar-contenido');
             contenido.innerHTML = (pilarActivo.acciones && pilarActivo.acciones.length > 0) ? 
                 pilarActivo.acciones.map(accion => `
-                    <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-200 mb-2 shadow-sm">
-                        <span class="text-sm font-medium text-slate-700">${accion.nombre}</span>
-                        ${getSemaforoIcon(accion.estado, 24)}
+                    <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-200 mb-2 shadow-sm cursor-pointer hover:bg-indigo-50 transition-colors group" onclick="abrirFichaAccion(${accion.id})">
+                        <span class="text-sm font-medium text-slate-700 group-hover:text-indigo-700">${accion.nombre}</span>
+                        <div class="flex items-center space-x-3">
+                            ${getSemaforoIcon(accion.estado, 24)}
+                            ${iconChevronRight}
+                        </div>
                     </div>
                 `).join('') : '<p class="text-sm text-slate-500">No hay acciones registradas para este pilar.</p>';
 
@@ -501,14 +544,15 @@
             barra.className = `h-2 rounded-full ${getBgColorByEstado(ministerioActivo.estado)}`;
             barra.style.width = `${ministerioActivo.puntaje || 0}%`;
             
-            document.getElementById('modal-ministerio-detalle').innerText = ministerioActivo.detalle || 'Sin detalle disponible.';
-
             const tareasContainer = document.getElementById('modal-ministerio-tareas');
             tareasContainer.innerHTML = (ministerioActivo.tareas && ministerioActivo.tareas.length > 0) ? 
                 ministerioActivo.tareas.map(tarea => `
-                    <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-200 mb-2 shadow-sm">
-                        <span class="text-sm text-slate-700">${tarea.nombre}</span>
-                        ${getSemaforoIcon(tarea.estado, 24)}
+                    <div class="flex items-center justify-between bg-white p-3 rounded-lg border border-slate-200 mb-2 shadow-sm cursor-pointer hover:bg-indigo-50 transition-colors group" onclick="abrirFichaTarea(${tarea.id})">
+                        <span class="text-sm font-medium text-slate-700 group-hover:text-indigo-700">${tarea.nombre}</span>
+                        <div class="flex items-center space-x-3">
+                            ${getSemaforoIcon(tarea.estado, 24)}
+                            ${iconChevronRight}
+                        </div>
                     </div>
                 `).join('') : '<p class="text-sm text-slate-400 italic">No hay tareas asignadas registradas.</p>';
 
@@ -516,6 +560,63 @@
         }
         function cerrarModalMinisterio() {
             document.getElementById('modal-ministerio').classList.add('escondido');
+        }
+
+        // ============================================================================
+        // SISTEMA DE FICHAS INFORMATIVAS (NUEVO)
+        // ============================================================================
+
+        function abrirFichaPrioridad(id) {
+            const item = currentData.prioridades.find(p => p.id === id);
+            mostrarFicha(item, 'Prioridad Presidencial Estratégica');
+        }
+
+        function abrirFichaAccion(id) {
+            let item = null;
+            currentData.pilares.forEach(p => {
+                const found = p.acciones?.find(a => a.id === id);
+                if(found) item = found;
+            });
+            mostrarFicha(item, 'Acción de Desarrollo Institucional');
+        }
+
+        function abrirFichaTarea(id) {
+            let item = null;
+            currentData.ministerios.forEach(m => {
+                const found = m.tareas?.find(t => t.id === id);
+                if(found) item = found;
+            });
+            mostrarFicha(item, 'Tarea Ministerial Asignada');
+        }
+
+        function mostrarFicha(item, subtitulo) {
+            if (!item) return;
+            
+            // Textos base
+            document.getElementById('ficha-titulo').innerText = item.nombre;
+            document.getElementById('ficha-subtitulo').innerText = subtitulo;
+            document.getElementById('ficha-estado').innerHTML = getColorBadge(item.estado);
+
+            // Lógica de avance (si existe)
+            const avanceContainer = document.getElementById('ficha-avance-container');
+            if (item.avance) {
+                avanceContainer.classList.remove('escondido');
+                document.getElementById('ficha-avance-texto').innerText = item.avance;
+                document.getElementById('ficha-avance-barra').className = `h-2 rounded-full ${getBgColorByEstado(item.estado)}`;
+                document.getElementById('ficha-avance-barra').style.width = item.avance;
+            } else {
+                avanceContainer.classList.add('escondido');
+            }
+
+            // Descripción o Detalle
+            const desc = item.descripcion || item.detalle || 'No hay información adicional registrada en la base de datos para esta ficha. Se recomienda contactar a la unidad responsable para más detalles.';
+            document.getElementById('ficha-descripcion').innerText = desc;
+
+            document.getElementById('modal-ficha').classList.remove('escondido');
+        }
+
+        function cerrarModalFicha() {
+            document.getElementById('modal-ficha').classList.add('escondido');
         }
 
         // ============================================================================
