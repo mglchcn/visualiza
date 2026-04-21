@@ -285,6 +285,15 @@
                         <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 shadow-sm text-sm text-slate-700 leading-relaxed whitespace-pre-wrap" id="ficha-descripcion">
                         </div>
                     </div>
+                    
+                    <!-- NUEVO: Botón de enlace dinámico -->
+                    <div id="ficha-enlace-container" class="escondido mt-2">
+                        <a id="ficha-enlace-btn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-2 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 hover:text-indigo-900 font-medium px-4 py-2.5 rounded-lg border border-indigo-200 transition-colors w-full justify-center">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <span>Ver Documento Adjunto</span>
+                        </a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -328,7 +337,7 @@
 
         const MOCK_DATA = {
             prioridades: [
-                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'verde', avance: '85%', descripcion: 'Promoción de políticas públicas orientadas al crecimiento del sector productivo nacional.' },
+                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'verde', avance: '85%', descripcion: 'Promoción de políticas públicas orientadas al crecimiento del sector productivo nacional.', enlace: 'https://docs.google.com/spreadsheets/' },
                 { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'amarillo', avance: '62%', descripcion: 'Fortalecimiento de las capacidades operativas y preventivas de las fuerzas del orden.' },
                 { id: 3, nombre: 'Transformación Educativa Integral', estado: 'rojo', avance: '30%', descripcion: 'Actualización de currículas y modernización de la infraestructura escolar.' },
                 { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'verde', avance: '78%', descripcion: 'Expansión del seguro universal de salud y campañas de prevención.' },
@@ -337,7 +346,7 @@
                 {
                     id: 1, nombre: 'Desarrollo Económico', estado: 'verde',
                     acciones: [
-                        { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'verde', descripcion: 'Ruedas de negocios internacionales y simplificación de trámites.' },
+                        { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'verde', descripcion: 'Ruedas de negocios internacionales y simplificación de trámites.', enlace: 'https://docs.google.com/document/' },
                         { id: 12, pilar_id: 1, nombre: 'Programa de créditos a PYMES', estado: 'verde' },
                         { id: 13, pilar_id: 1, nombre: 'Reducción del déficit fiscal', estado: 'amarillo' },
                         { id: 14, pilar_id: 1, nombre: 'Plan de Industrialización 2025', estado: 'no iniciado' }
@@ -360,7 +369,7 @@
                 { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'rojo', puntaje: 35, detalle: 'Retraso de 6 meses en licitaciones públicas. Baja ejecución presupuestaria.' }
             ],
             tareas: [
-                { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'verde', descripcion: 'Trámite finalizado y aprobado por el poder legislativo.' },
+                { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'verde', descripcion: 'Trámite finalizado y aprobado por el poder legislativo.', enlace: 'https://docs.google.com/' },
                 { id: 2, ministerio_id: 1, nombre: 'Reforma Tributaria', estado: 'amarillo' },
                 { id: 3, ministerio_id: 2, nombre: 'Lanzamiento de Bolsa de Empleo', estado: 'verde' },
                 { id: 4, ministerio_id: 2, nombre: 'Inspecciones laborales', estado: 'verde' },
@@ -611,6 +620,17 @@
             // Descripción o Detalle
             const desc = item.descripcion || item.detalle || 'No hay información adicional registrada en la base de datos para esta ficha. Se recomienda contactar a la unidad responsable para más detalles.';
             document.getElementById('ficha-descripcion').innerText = desc;
+
+            // Lógica de enlace
+            const enlaceContainer = document.getElementById('ficha-enlace-container');
+            const enlaceBtn = document.getElementById('ficha-enlace-btn');
+            if (item.enlace && item.enlace.trim() !== '') {
+                enlaceBtn.href = item.enlace;
+                enlaceContainer.classList.remove('escondido');
+            } else {
+                enlaceContainer.classList.add('escondido');
+                enlaceBtn.href = '#';
+            }
 
             document.getElementById('modal-ficha').classList.remove('escondido');
         }
