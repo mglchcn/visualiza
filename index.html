@@ -259,15 +259,29 @@
                 </button>
             </div>
             <div class="p-6 overflow-y-auto">
-                <div class="flex flex-col space-y-5">
+                <div class="flex flex-col space-y-4">
                     <div>
                         <h3 id="ficha-titulo" class="text-lg font-bold text-slate-800 leading-tight"></h3>
                         <p id="ficha-subtitulo" class="text-sm text-slate-500 mt-1 font-medium uppercase tracking-wide"></p>
                     </div>
                     
-                    <div class="flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
-                        <span class="text-sm font-semibold text-slate-700">Estado Actual:</span>
-                        <div id="ficha-estado"></div>
+                    <div class="grid grid-cols-1 gap-3">
+                        <div class="flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="text-sm font-semibold text-slate-700 w-24">Estado:</span>
+                            <div id="ficha-estado"></div>
+                        </div>
+
+                        <!-- Info Pilar -->
+                        <div id="ficha-pilar-container" class="escondido flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="text-sm font-semibold text-slate-700 w-24">Pilar:</span>
+                            <div id="ficha-pilar-texto" class="text-sm text-slate-800 font-medium"></div>
+                        </div>
+
+                        <!-- Info Ministerio -->
+                        <div id="ficha-ministerio-container" class="escondido flex items-center space-x-3 bg-slate-50 p-3 rounded-lg border border-slate-100">
+                            <span class="text-sm font-semibold text-slate-700 w-24">Ministerio:</span>
+                            <div id="ficha-ministerio-texto" class="text-sm text-slate-800 font-medium"></div>
+                        </div>
                     </div>
 
                     <div id="ficha-avance-container" class="escondido bg-slate-50 p-4 rounded-lg border border-slate-100">
@@ -582,29 +596,57 @@
 
         function abrirFichaAccion(id) {
             let item = null;
+            let pilarNombre = null;
             currentData.pilares.forEach(p => {
                 const found = p.acciones?.find(a => a.id === id);
-                if(found) item = found;
+                if(found) {
+                    item = found;
+                    pilarNombre = p.nombre;
+                }
             });
-            mostrarFicha(item, 'Prioridad');
+            mostrarFicha(item, 'Prioridad', { pilar: pilarNombre });
         }
 
         function abrirFichaTarea(id) {
             let item = null;
+            let ministerioNombre = null;
             currentData.ministerios.forEach(m => {
                 const found = m.tareas?.find(t => t.id === id);
-                if(found) item = found;
+                if(found) {
+                    item = found;
+                    ministerioNombre = m.nombre;
+                }
             });
-            mostrarFicha(item, 'Prioridad');
+            mostrarFicha(item, 'Prioridad', { ministerio: ministerioNombre });
         }
 
-        function mostrarFicha(item, subtitulo) {
+        function mostrarFicha(item, subtitulo, extraInfo = {}) {
             if (!item) return;
             
             // Textos base
             document.getElementById('ficha-titulo').innerText = item.nombre;
             document.getElementById('ficha-subtitulo').innerText = subtitulo;
             document.getElementById('ficha-estado').innerHTML = getColorBadge(item.estado);
+
+            // Lógica para Pilar
+            const pilarContainer = document.getElementById('ficha-pilar-container');
+            const valorPilar = extraInfo.pilar || item.pilar;
+            if (valorPilar) {
+                pilarContainer.classList.remove('escondido');
+                document.getElementById('ficha-pilar-texto').innerText = valorPilar;
+            } else {
+                pilarContainer.classList.add('escondido');
+            }
+
+            // Lógica para Ministerio
+            const ministerioContainer = document.getElementById('ficha-ministerio-container');
+            const valorMinisterio = extraInfo.ministerio || item.ministerio;
+            if (valorMinisterio) {
+                ministerioContainer.classList.remove('escondido');
+                document.getElementById('ficha-ministerio-texto').innerText = valorMinisterio;
+            } else {
+                ministerioContainer.classList.add('escondido');
+            }
 
             // Lógica de avance (si existe)
             const avanceContainer = document.getElementById('ficha-avance-container');
@@ -618,7 +660,7 @@
             }
 
             // Descripción o Detalle
-            const desc = item.descripcion || item.detalle || 'No hay información adicional registrada en la base de datos para esta ficha. Se recomienda contactar a la unidad responsable para más detalles.';
+            const desc = item.descripcion || item.detalle || 'Intervención y Descripción';
             document.getElementById('ficha-descripcion').innerText = desc;
 
             // Lógica de enlace
