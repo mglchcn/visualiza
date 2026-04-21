@@ -577,7 +577,7 @@
 
         function abrirFichaPrioridad(id) {
             const item = currentData.prioridades.find(p => p.id === id);
-            mostrarFicha(item, 'Prioridad Presidencial Estratégica');
+            mostrarFicha(item, 'Prioridad');
         }
 
         function abrirFichaAccion(id) {
@@ -586,7 +586,7 @@
                 const found = p.acciones?.find(a => a.id === id);
                 if(found) item = found;
             });
-            mostrarFicha(item, 'Acción de Desarrollo Institucional');
+            mostrarFicha(item, 'Prioridad');
         }
 
         function abrirFichaTarea(id) {
@@ -595,7 +595,7 @@
                 const found = m.tareas?.find(t => t.id === id);
                 if(found) item = found;
             });
-            mostrarFicha(item, 'Tarea Ministerial Asignada');
+            mostrarFicha(item, 'Prioridad');
         }
 
         function mostrarFicha(item, subtitulo) {
