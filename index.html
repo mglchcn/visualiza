@@ -759,18 +759,14 @@
 
             // Etapa y Progreso de Ejecución
             const etapaContainer = document.getElementById('ficha-etapa-container');
-            if (item.etapa || item.etapas_totales) {
-                etapaContainer.classList.remove('escondido');
-                document.getElementById('ficha-etapa-texto').innerText = item.etapa || 'No especificada';
-                document.getElementById('ficha-nro-etapa').innerText = item.nro_etapa_actual ? `${item.nro_etapa_actual}` : '-';
-                document.getElementById('ficha-etapa-avance').innerText = `${avance}%`;
-                document.getElementById('ficha-etapas-completadas').innerText = item.etapas_completadas || '0';
-                document.getElementById('ficha-etapas-totales').innerText = item.etapas_totales || '0';
-                document.getElementById('ficha-subetapas').innerText = item.subetapas_cumplidas || '0';
-                document.getElementById('ficha-desc-etapa-texto').innerText = item.desc_etapa || 'Sin detalles de etapa registrados.';
-            } else {
-                etapaContainer.classList.add('escondido');
-            }
+            etapaContainer.classList.remove('escondido'); // Aseguramos que siempre sea visible en el navegador
+            document.getElementById('ficha-etapa-texto').innerText = item.etapa || 'No especificada';
+            document.getElementById('ficha-nro-etapa').innerText = item.nro_etapa_actual ? `${item.nro_etapa_actual}` : '-';
+            document.getElementById('ficha-etapa-avance').innerText = `${avance}%`;
+            document.getElementById('ficha-etapas-completadas').innerText = item.etapas_completadas || '0';
+            document.getElementById('ficha-etapas-totales').innerText = item.etapas_totales || '0';
+            document.getElementById('ficha-subetapas').innerText = item.subetapas_cumplidas || '0';
+            document.getElementById('ficha-desc-etapa-texto').innerText = item.desc_etapa || 'Sin detalles de etapa registrados.';
 
             // Descripción General
             const desc = item.descripcion || item.detalle || 'No hay descripción detallada registrada para este elemento.';
