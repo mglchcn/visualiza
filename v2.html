@@ -94,58 +94,60 @@
 
         <main class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
             
-            <!-- BOTÓN 1: GRANDES PRIORIDADES -->
-            <button onclick="abrirModalPrioridades()" class="w-full relative overflow-hidden group bg-gradient-to-r from-[#064e3b] to-[#047857] hover:from-[#022c22] hover:to-[#064e3b] text-white rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(6,78,59,0.15)] transition-all duration-300 transform hover:-translate-y-1 text-left border border-emerald-800 focus:outline-none">
-                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-amber-500 opacity-10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+            <!-- BOTÓN 1: GRANDES PRIORIDADES (Esmeralda/Teal) -->
+            <button onclick="abrirModalPrioridades()" class="w-full relative overflow-hidden group bg-gradient-to-br from-[#064e3b] to-[#047857] hover:from-[#022c22] hover:to-[#064e3b] text-white rounded-2xl p-6 sm:p-8 shadow-lg shadow-emerald-900/20 transition-all duration-300 transform hover:-translate-y-1 text-left border border-emerald-700/50 focus:outline-none">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-amber-400 opacity-10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                 <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between">
                     <div class="flex items-center space-x-4 mb-4 sm:mb-0 w-full sm:w-auto">
-                        <div class="p-3 bg-white/10 rounded-xl hidden sm:block border border-white/10 backdrop-blur-sm">
+                        <div class="p-3 bg-white/10 rounded-xl hidden sm:block border border-white/10 backdrop-blur-sm shadow-inner">
                             <svg class="h-10 w-10 text-amber-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
                         </div>
                         <div class="text-left">
-                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-amber-50">Las Grandes Prioridades</h2>
-                            <p class="text-emerald-200 mt-1 font-medium">Monitoreo Presidencial Estratégico</p>
+                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-sm">Las Grandes Prioridades</h2>
+                            <p class="text-emerald-100 mt-1 font-medium">Monitoreo Presidencial Estratégico</p>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 bg-white/10 px-5 py-2.5 rounded-lg backdrop-blur-md border border-white/20 transition-colors group-hover:bg-amber-500/20 group-hover:border-amber-500/30 self-start sm:self-auto text-amber-50">
+                    <div class="flex items-center space-x-2 bg-white/10 px-5 py-2.5 rounded-lg backdrop-blur-md border border-white/20 transition-colors group-hover:bg-amber-500/20 group-hover:border-amber-400/30 self-start sm:self-auto text-white">
                         <span class="font-medium">Abrir Tablero</span>
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
                     </div>
                 </div>
             </button>
 
-            <!-- BOTÓN 2: PILARES -->
-            <button onclick="abrirModalPilares()" class="w-full relative overflow-hidden group bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-emerald-100 dark:border-emerald-800 transition-all duration-300 transform hover:-translate-y-1 text-left focus:outline-none">
+            <!-- BOTÓN 2: PILARES (Deep Blue/Sky) -->
+            <button onclick="abrirModalPilares()" class="w-full relative overflow-hidden group bg-gradient-to-br from-blue-900 to-sky-800 hover:from-blue-950 hover:to-blue-900 text-white rounded-2xl p-6 sm:p-8 shadow-lg shadow-blue-900/20 transition-all duration-300 transform hover:-translate-y-1 text-left border border-blue-700/50 focus:outline-none">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-sky-300 opacity-10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                 <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between">
                     <div class="flex items-center space-x-4 mb-4 sm:mb-0 w-full sm:w-auto">
-                        <div class="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl hidden sm:block border border-emerald-100 dark:border-emerald-800/50">
-                            <svg class="h-10 w-10 text-emerald-700 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                        <div class="p-3 bg-white/10 rounded-xl hidden sm:block border border-white/10 backdrop-blur-sm shadow-inner">
+                            <svg class="h-10 w-10 text-sky-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                         </div>
                         <div class="text-left">
-                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-900 dark:text-emerald-400">Cumplimiento de los Pilares</h2>
-                            <p class="text-slate-500 dark:text-slate-400 mt-1 font-medium">Ejes estratégicos de desarrollo</p>
+                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-sm">Cumplimiento de los Pilares</h2>
+                            <p class="text-blue-100 mt-1 font-medium">Ejes estratégicos de desarrollo</p>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 px-5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 transition-colors group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 group-hover:border-emerald-200 dark:group-hover:border-emerald-800/50 self-start sm:self-auto">
+                    <div class="flex items-center space-x-2 bg-white/10 px-5 py-2.5 rounded-lg backdrop-blur-md border border-white/20 transition-colors group-hover:bg-sky-500/20 group-hover:border-sky-400/30 self-start sm:self-auto text-white">
                         <span class="font-medium">Abrir Tablero</span>
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
                     </div>
                 </div>
             </button>
 
-            <!-- BOTÓN 3: MINISTERIOS -->
-            <button onclick="abrirModalMinisterios()" class="w-full relative overflow-hidden group bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-2xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-emerald-100 dark:border-emerald-800 transition-all duration-300 transform hover:-translate-y-1 text-left focus:outline-none">
+            <!-- BOTÓN 3: MINISTERIOS (Indigo/Purple) -->
+            <button onclick="abrirModalMinisterios()" class="w-full relative overflow-hidden group bg-gradient-to-br from-indigo-900 to-purple-800 hover:from-indigo-950 hover:to-indigo-900 text-white rounded-2xl p-6 sm:p-8 shadow-lg shadow-indigo-900/20 transition-all duration-300 transform hover:-translate-y-1 text-left border border-indigo-700/50 focus:outline-none">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-fuchsia-400 opacity-10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
                 <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between">
                     <div class="flex items-center space-x-4 mb-4 sm:mb-0 w-full sm:w-auto">
-                        <div class="p-3 bg-emerald-50 dark:bg-emerald-900/30 rounded-xl hidden sm:block border border-emerald-100 dark:border-emerald-800/50">
-                            <svg class="h-10 w-10 text-emerald-700 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                        <div class="p-3 bg-white/10 rounded-xl hidden sm:block border border-white/10 backdrop-blur-sm shadow-inner">
+                            <svg class="h-10 w-10 text-fuchsia-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
                         </div>
                         <div class="text-left">
-                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-emerald-900 dark:text-emerald-400">Desempeño de Ministerios</h2>
-                            <p class="text-slate-500 dark:text-slate-400 mt-1 font-medium">Evaluación institucional y tareas</p>
+                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-sm">Desempeño de Ministerios</h2>
+                            <p class="text-indigo-100 mt-1 font-medium">Evaluación institucional y tareas</p>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-2 bg-slate-50 dark:bg-slate-700 text-emerald-800 dark:text-emerald-300 px-5 py-2.5 rounded-lg border border-slate-200 dark:border-slate-600 transition-colors group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 group-hover:border-emerald-200 dark:group-hover:border-emerald-800/50 self-start sm:self-auto">
+                    <div class="flex items-center space-x-2 bg-white/10 px-5 py-2.5 rounded-lg backdrop-blur-md border border-white/20 transition-colors group-hover:bg-fuchsia-500/20 group-hover:border-fuchsia-400/30 self-start sm:self-auto text-white">
                         <span class="font-medium">Abrir Tablero</span>
                         <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
                     </div>
@@ -407,13 +409,13 @@
             prioridades: [
                 { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'completado', avance: '85', nro_etapa_actual: '3', etapa: 'Ejecución Plena', desc_etapa: 'Implementación de créditos en todos los departamentos.', descripcion: 'Promoción de políticas públicas orientadas al crecimiento.', etapas_completadas: 2, etapas_totales: 3, subetapas_cumplidas: 12 },
                 { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'en curso', avance: '62', nro_etapa_actual: '2', etapa: 'Licitaciones', desc_etapa: 'Adquisición de equipamiento tecnológico.', descripcion: 'Fortalecimiento de las capacidades operativas.', etapas_completadas: 1, etapas_totales: 4, subetapas_cumplidas: 5 },
-                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'pendiente', avance: '30', nro_etapa_actual: '1', etapa: 'Diseño', desc_etapa: 'Revisión de malla curricular por comité experto.', descripcion: 'Actualización de currículas y modernización.', etapas_completadas: 0, etapas_totales: 5, subetapas_cumplidas: 2 },
+                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'no iniciado', avance: '30', nro_etapa_actual: '1', etapa: 'Diseño', desc_etapa: 'Revisión de malla curricular por comité experto.', descripcion: 'Actualización de currículas y modernización.', etapas_completadas: 0, etapas_totales: 5, subetapas_cumplidas: 2 },
                 { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'completado', avance: '78', nro_etapa_actual: '4', etapa: 'Evaluación', desc_etapa: 'Medición de impacto de campañas 2024.', descripcion: 'Expansión del seguro universal de salud.', etapas_completadas: 3, etapas_totales: 4, subetapas_cumplidas: 18 },
             ],
             pilares: [
                 { id: 1, nombre: 'Desarrollo Económico', estado: 'completado', avance: '80', descripcion: 'Fomento a la industria nacional', nro_etapa_actual: '2', etapa: 'Crecimiento', desc_etapa: 'Impulso a nuevas empresas.', etapas_completadas: 1, etapas_totales: 3, subetapas_cumplidas: 8},
                 { id: 2, nombre: 'Desarrollo Social', estado: 'en curso', avance: '55', descripcion: 'Reducción de brechas de desigualdad.', nro_etapa_actual: '1', etapa: 'Identificación', desc_etapa: 'Censo de población vulnerable.'},
-                { id: 3, nombre: 'Infraestructura', estado: 'pendiente', avance: '20', descripcion: 'Integración vial del país.', nro_etapa_actual: '1', etapa: 'Prefactibilidad', desc_etapa: 'Estudios de terreno en carreteras.'},
+                { id: 3, nombre: 'Infraestructura', estado: 'no iniciado', avance: '20', descripcion: 'Integración vial del país.', nro_etapa_actual: '1', etapa: 'Prefactibilidad', desc_etapa: 'Estudios de terreno en carreteras.'},
                 { id: 4, nombre: 'Justicia Transparente', estado: 'completado', avance: '90', descripcion: 'Digitalización del órgano judicial.', nro_etapa_actual: '5', etapa: 'Implementación', desc_etapa: 'Expediente electrónico activo.', etapas_completadas: 4, etapas_totales: 5, subetapas_cumplidas: 22},
                 { id: 5, nombre: 'Soberanía Alimentaria', estado: 'en curso', avance: '60', descripcion: 'Apoyo a productores agrícolas.', nro_etapa_actual: '3', etapa: 'Subvención', desc_etapa: 'Entrega de fertilizantes en curso.'},
                 { id: 6, nombre: 'Medio Ambiente', estado: 'completado', avance: '75', descripcion: 'Planes de reforestación masiva.', nro_etapa_actual: '2', etapa: 'Ejecución', desc_etapa: 'Siembra de 2 millones de plantines.', etapas_completadas: 1, etapas_totales: 2, subetapas_cumplidas: 5}
@@ -428,14 +430,14 @@
                 { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', estado: 'completado', puntaje: '88', nro_etapa_actual: '2', etapa: 'Inspecciones', desc_etapa: 'Verificación de aguinaldos.', descripcion: 'Regulación laboral.', etapas_completadas: 1, etapas_totales: 3, subetapas_cumplidas: 6 },
                 { id: 3, rank: 3, nombre: 'Ministerio de Salud', estado: 'en curso', puntaje: '65', nro_etapa_actual: '2', etapa: 'Contingencia', desc_etapa: 'Control de epidemias regionales.', descripcion: 'Rectoría en salud pública.' },
                 { id: 4, rank: 4, nombre: 'Ministerio de Educación', estado: 'en curso', puntaje: '58', nro_etapa_actual: '1', etapa: 'Matriculación', desc_etapa: 'Inscripción escolar gestión actual.', descripcion: 'Gestión educativa nacional.' },
-                { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'pendiente', puntaje: '35', nro_etapa_actual: '1', etapa: 'Reformulación', desc_etapa: 'Ajuste de presupuestos de obras paradas.', descripcion: 'Infraestructura del Estado.' },
+                { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'no iniciado', puntaje: '35', nro_etapa_actual: '1', etapa: 'Reformulación', desc_etapa: 'Ajuste de presupuestos de obras paradas.', descripcion: 'Infraestructura del Estado.' },
                 { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', estado: 'completado', puntaje: '85', nro_etapa_actual: '3', etapa: 'Coordinación', desc_etapa: 'Reuniones con gobernaciones.', descripcion: 'Seguridad interna.', etapas_completadas: 2, etapas_totales: 3, subetapas_cumplidas: 9 }
             ],
             tareas: [
                 { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'completado', descripcion: 'Trámite finalizado y aprobado.', avance: '100' },
                 { id: 2, ministerio_id: 1, nombre: 'Reforma Tributaria', estado: 'en curso', avance: '40' },
                 { id: 3, ministerio_id: 2, nombre: 'Lanzamiento de Bolsa de Empleo', estado: 'completado', avance: '100' },
-                { id: 4, ministerio_id: 3, nombre: 'Compra de tomógrafos', estado: 'pendiente', avance: '15' },
+                { id: 4, ministerio_id: 3, nombre: 'Compra de tomógrafos', estado: 'no iniciado', avance: '0' },
                 { id: 5, ministerio_id: 4, nombre: 'Reparación de escuelas', estado: 'no iniciado', avance: '0' },
             ]
         };
@@ -463,7 +465,6 @@
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
             updateThemeIcons(isDark);
             
-            // Re-render pie chart to handle possible color changes
             if (document.getElementById('pie-chart')) {
                 renderMinisteriosYPie();
             }
@@ -483,33 +484,25 @@
         initTheme();
 
         // ============================================================================
-        // COLORES Y ESTADOS 
+        // COLORES Y ESTADOS DINÁMICOS POR PORCENTAJE
         // ============================================================================
-        const PALETTE = { verde: '#10b981', amarillo: '#f59e0b', rojo: '#f43f5e', gris: '#94a3b8' };
+        const C_VERDE = '#10b981';         // 100% (Completado)
+        const C_AMARILLO = '#f59e0b';      // 30% - 99% (En curso)
+        const C_ROJO_CLARO = '#ef4444';    // 1% - 29% (Pendiente)
+        const C_ROJO_INTENSO = '#b91c1c';  // 0% (No iniciado)
 
-        function getHexColor(estado) {
-            const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde' || est === 'completado') return PALETTE.verde;
-            if (est === 'amarillo' || est === 'en curso') return PALETTE.amarillo;
-            if (est === 'rojo' || est === 'pendiente') return PALETTE.rojo;
-            return PALETTE.gris;
+        function getHexColorByPercent(percent) {
+            if (percent === 100) return C_VERDE;
+            if (percent >= 30) return C_AMARILLO;
+            if (percent > 0) return C_ROJO_CLARO;
+            return C_ROJO_INTENSO;
         }
 
-        function getColorBadge(estado) {
-            const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde' || est === 'completado') return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50 shadow-sm">Completado</span>`;
-            if (est === 'amarillo' || est === 'en curso') return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 shadow-sm">En Curso</span>`;
-            if (est === 'rojo' || est === 'pendiente') return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 shadow-sm">Pendiente</span>`;
-            return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-slate-300 dark:border-slate-600 shadow-sm">No Iniciado</span>`;
-        }
-
-        function getBgColorByEstado(estado) {
-            const est = (estado || '').toLowerCase().trim();
-            if (est === 'verde' || est === 'completado') return 'bg-emerald-500';
-            if (est === 'amarillo' || est === 'en curso') return 'bg-amber-500';
-            if (est === 'rojo' || est === 'pendiente') return 'bg-rose-500';
-            if (est === 'gris' || est === 'no iniciado') return 'bg-slate-400';
-            return 'bg-slate-300';
+        function getColorBadge(percent) {
+            if (percent === 100) return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50 shadow-sm">Completado</span>`;
+            if (percent >= 30) return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 shadow-sm">En Curso</span>`;
+            if (percent > 0) return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400 border-rose-200 dark:border-rose-800/50 shadow-sm">Pendiente</span>`;
+            return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border-red-300 dark:border-red-800/50 shadow-sm">No Iniciado</span>`;
         }
 
         function getNumber(val) {
@@ -523,22 +516,20 @@
             const est = (item.estado || '').toLowerCase().trim();
             if (est === 'verde' || est === 'completado') return 100;
             if (est === 'amarillo' || est === 'en curso') return 50;
-            if (est === 'rojo' || est === 'pendiente') return 25;
+            if (est === 'rojo' || est === 'no iniciado') return 0;
+            if (est === 'pendiente') return 15;
             return 0;
         }
 
         // ============================================================================
-        // GENERADORES DE GRÁFICOS (SVG KPI CIRCULAR & GAUGE)
+        // GENERADORES DE GRÁFICOS
         // ============================================================================
         
         const iconChevronRight = `<svg class="h-5 w-5 text-emerald-800/40 dark:text-emerald-400/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
 
-        // KPI Circular sólido de color entero
-        function getSolidKpiCircle(percent, estado, size = 56) {
-            const color = getHexColor(estado);
-            const est = (estado || '').toLowerCase().trim();
-            // Asegurar legibilidad para fondos brillantes (amarillo/en curso)
-            const isYellow = (est === 'amarillo' || est === 'en curso');
+        function getSolidKpiCircle(percent, size = 56) {
+            const color = getHexColorByPercent(percent);
+            const isYellow = (percent >= 30 && percent <= 99);
             const textColor = isYellow ? '#451a03' : '#ffffff'; 
             const fontSize = size * 0.32; 
             
@@ -550,6 +541,18 @@
         }
 
         function createGaugeSVG(percent, color) {
+            const radius = 40;
+            const circumference = Math.PI * radius; 
+            const offset = circumference - (percent / 100) * circumference;
+            return `
+            <svg viewBox="0 0 100 55" class="w-full h-full overflow-visible drop-shadow-md">
+                <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="currentColor" class="text-slate-200 dark:text-slate-700/50" stroke-width="12" stroke-linecap="round" />
+                <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="${color}" stroke-width="12" stroke-linecap="round" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" class="transition-all duration-1000 ease-out" />
+                <text x="50" y="45" font-family="sans-serif" font-size="20" font-weight="bold" fill="currentColor" class="text-white drop-shadow-sm" text-anchor="middle">${percent}%</text>
+            </svg>`;
+        }
+        
+        function createGaugeSVGFicha(percent, color) {
             const radius = 40;
             const circumference = Math.PI * radius; 
             const offset = circumference - (percent / 100) * circumference;
@@ -569,14 +572,14 @@
             const container = document.getElementById('prioridades-grid');
             container.innerHTML = currentData.prioridades.map(prio => {
                 const avance = getSmartAvance(prio);
-                const color = getHexColor(prio.estado);
+                const color = getHexColorByPercent(avance);
                 return `
                 <button class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all cursor-pointer transform hover:-translate-y-1 flex flex-col items-center text-center group w-full focus:outline-none" onclick="abrirFichaRaiz('prioridades', ${prio.id})">
                     <h3 class="font-bold text-sm text-emerald-950 dark:text-emerald-300 leading-tight mb-4 h-10 flex items-center group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">${prio.nombre}</h3>
                     <div class="w-32 h-20 relative">
-                        ${createGaugeSVG(avance, color)}
+                        ${createGaugeSVGFicha(avance, color)}
                     </div>
-                    <div class="mt-2 w-full pt-3 border-t border-slate-100 dark:border-slate-700">${getColorBadge(prio.estado)}</div>
+                    <div class="mt-2 w-full pt-3 border-t border-slate-100 dark:border-slate-700">${getColorBadge(avance)}</div>
                 </button>`;
             }).join('');
         }
@@ -589,7 +592,7 @@
                 return `
                 <button onclick="abrirFichaRaiz('pilares', ${pilar.id})" class="w-full bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 p-4 flex items-center justify-between hover:bg-emerald-50 dark:hover:bg-emerald-900/40 hover:border-emerald-300 dark:hover:border-emerald-700/50 hover:shadow-md transition-all group text-left focus:outline-none">
                     <div class="flex items-center space-x-4">
-                        ${getSolidKpiCircle(avance, pilar.estado, 56)}
+                        ${getSolidKpiCircle(avance, 56)}
                         <div>
                             <h3 class="font-bold text-sm text-emerald-950 dark:text-emerald-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400">${pilar.nombre}</h3>
                             <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">${numAcciones} Acciones asociadas</p>
@@ -604,16 +607,17 @@
             const barsContainer = document.getElementById('ministerios-bars');
             barsContainer.innerHTML = currentData.ministerios.map((min, idx) => {
                 const puntaje = getSmartAvance(min);
-                const color = getHexColor(min.estado);
+                const color = getHexColorByPercent(puntaje);
                 return `
-                <button class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors" onclick="abrirFichaRaiz('ministerios', ${min.id})">
-                    <div class="flex justify-between items-end mb-1">
-                        <span class="text-xs sm:text-sm font-bold text-emerald-900 dark:text-emerald-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors">#${idx+1}. ${min.nombre}</span>
-                        <span class="text-xs font-bold" style="color: ${color}">${puntaje}%</span>
+                <button onclick="abrirFichaRaiz('ministerios', ${min.id})" class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors mb-4 flex items-center justify-between">
+                    <div class="flex items-center space-x-3 sm:space-x-4 pr-2">
+                        ${getSolidKpiCircle(puntaje, 48)}
+                        <div class="flex flex-col">
+                            <span class="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">Ranking #${idx+1}</span>
+                            <span class="text-sm font-bold text-emerald-950 dark:text-emerald-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">${min.nombre}</span>
+                        </div>
                     </div>
-                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 shadow-inner overflow-hidden">
-                        <div class="h-full rounded-full bar-animate" style="width: ${puntaje}%; background-color: ${color};"></div>
-                    </div>
+                    <div>${iconChevronRight}</div>
                 </button>`;
             }).join('');
 
@@ -621,10 +625,10 @@
             let total = currentData.tareas.length;
 
             currentData.tareas.forEach(t => {
-                const est = (t.estado || '').toLowerCase().trim();
-                if(est === 'verde' || est === 'completado') counts.completado++;
-                else if(est === 'amarillo' || est === 'en curso') counts.enCurso++;
-                else if(est === 'rojo' || est === 'pendiente') counts.pendiente++;
+                const p = getSmartAvance(t);
+                if(p === 100) counts.completado++;
+                else if(p >= 30) counts.enCurso++;
+                else if(p > 0) counts.pendiente++;
                 else counts.noIniciado++;
             });
 
@@ -635,17 +639,14 @@
                 const p2 = p1 + ((counts.enCurso / total) * 100);
                 const p3 = p2 + ((counts.pendiente / total) * 100);
                 
-                const isDark = document.documentElement.classList.contains('dark');
-                const bgEmpty = isDark ? '#334155' : '#e2e8f0';
-                
-                const grad = `conic-gradient(${PALETTE.verde} 0% ${p1}%, ${PALETTE.amarillo} ${p1}% ${p2}%, ${PALETTE.rojo} ${p2}% ${p3}%, ${PALETTE.gris} ${p3}% 100%)`;
+                const grad = `conic-gradient(${C_VERDE} 0% ${p1}%, ${C_AMARILLO} ${p1}% ${p2}%, ${C_ROJO_CLARO} ${p2}% ${p3}%, ${C_ROJO_INTENSO} ${p3}% 100%)`;
                 document.getElementById('pie-chart').style.background = grad;
 
                 document.getElementById('pie-legend').innerHTML = `
-                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${PALETTE.verde}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">Completado</span></div><span class="font-bold">${counts.completado}</span></div>
-                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${PALETTE.amarillo}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">En Curso</span></div><span class="font-bold">${counts.enCurso}</span></div>
-                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${PALETTE.rojo}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">Pendiente</span></div><span class="font-bold">${counts.pendiente}</span></div>
-                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${PALETTE.gris}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">No Iniciado</span></div><span class="font-bold">${counts.noIniciado}</span></div>
+                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${C_VERDE}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">Completado</span></div><span class="font-bold">${counts.completado}</span></div>
+                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${C_AMARILLO}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">En Curso</span></div><span class="font-bold">${counts.enCurso}</span></div>
+                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${C_ROJO_CLARO}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">Pendiente</span></div><span class="font-bold">${counts.pendiente}</span></div>
+                    <div class="flex justify-between items-center"><div class="flex items-center"><span class="w-3 h-3 rounded-full mr-2" style="background-color:${C_ROJO_INTENSO}"></span><span class="text-slate-600 dark:text-slate-300 font-medium">No Iniciado</span></div><span class="font-bold">${counts.noIniciado}</span></div>
                 `;
             }
         }
@@ -665,21 +666,21 @@
         function abrirModalEstadoTareas() {
             const container = document.getElementById('estado-tareas-container');
             const estados = [
-                { id: 'completado', titulo: 'Completadas', color: PALETTE.verde },
-                { id: 'en curso', titulo: 'En Curso', color: PALETTE.amarillo },
-                { id: 'pendiente', titulo: 'Pendientes', color: PALETTE.rojo },
-                { id: 'no iniciado', titulo: 'No Iniciadas', color: PALETTE.gris }
+                { id: 'completado', titulo: 'Completadas', color: C_VERDE },
+                { id: 'en curso', titulo: 'En Curso', color: C_AMARILLO },
+                { id: 'pendiente', titulo: 'Pendientes', color: C_ROJO_CLARO },
+                { id: 'no iniciado', titulo: 'No Iniciadas', color: C_ROJO_INTENSO }
             ];
 
             let html = '';
             
             estados.forEach(est => {
                 const tareasFiltradas = currentData.tareas.filter(t => {
-                    const e = (t.estado || '').toLowerCase().trim();
-                    if (est.id === 'completado') return e === 'verde' || e === 'completado';
-                    if (est.id === 'en curso') return e === 'amarillo' || e === 'en curso';
-                    if (est.id === 'pendiente') return e === 'rojo' || e === 'pendiente';
-                    if (est.id === 'no iniciado') return e === 'gris' || e === 'no iniciado';
+                    const p = getSmartAvance(t);
+                    if (est.id === 'completado') return p === 100;
+                    if (est.id === 'en curso') return p >= 30 && p <= 99;
+                    if (est.id === 'pendiente') return p > 0 && p < 30;
+                    if (est.id === 'no iniciado') return p === 0;
                     return false;
                 });
 
@@ -702,7 +703,7 @@
                                         <span class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">${minNombre}</span>
                                     </div>
                                     <div class="flex items-center space-x-2">
-                                        ${getSolidKpiCircle(avance, t.estado, 48)}
+                                        ${getSolidKpiCircle(avance, 42)}
                                         ${iconChevronRight}
                                     </div>
                                 </button>
@@ -762,16 +763,17 @@
             if(coleccion === 'acciones') subtitulo = "Acción Estratégica";
             if(coleccion === 'tareas') subtitulo = "Tarea Ministerial";
 
+            const avance = getSmartAvance(item);
+            const color = getHexColorByPercent(avance);
+
             document.getElementById('ficha-titulo').innerText = item.nombre;
             document.getElementById('ficha-subtitulo').innerText = subtitulo;
-            document.getElementById('ficha-estado-badge').innerHTML = getColorBadge(item.estado);
+            document.getElementById('ficha-estado-badge').innerHTML = getColorBadge(avance);
 
             // Gauge central grande
-            const avance = getSmartAvance(item);
-            const color = getHexColor(item.estado);
-            document.getElementById('ficha-gauge-container').innerHTML = createGaugeSVG(avance, color);
+            document.getElementById('ficha-gauge-container').innerHTML = createGaugeSVGFicha(avance, color);
 
-            // Contexto Padre (Ej. Pilar al que pertenece la acción)
+            // Contexto Padre
             const parentContainer = document.getElementById('ficha-parent-container');
             if (coleccion === 'acciones' && item.pilar_id) {
                 const p = currentData.pilares.find(el => el.id === item.pilar_id);
@@ -792,7 +794,7 @@
             if (coleccion === 'pilares' || coleccion === 'ministerios') {
                 etapaContainer.classList.add('escondido');
             } else {
-                etapaContainer.classList.remove('escondido'); // Aseguramos que siempre sea visible en el navegador
+                etapaContainer.classList.remove('escondido');
                 document.getElementById('ficha-etapa-texto').innerText = item.etapa || 'No especificada';
                 document.getElementById('ficha-nro-etapa').innerText = item.nro_etapa_actual ? `${item.nro_etapa_actual}` : '-';
                 document.getElementById('ficha-etapa-avance').innerText = `${avance}%`;
@@ -833,7 +835,7 @@
                             <span class="text-sm font-bold text-slate-700 dark:text-slate-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 leading-tight">${h.nombre}</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            ${getSolidKpiCircle(hAvance, h.estado, 48)}
+                            ${getSolidKpiCircle(hAvance, 46)}
                             ${iconChevronRight}
                         </div>
                     </button>
@@ -842,7 +844,7 @@
                 hijosSection.classList.add('escondido');
             }
 
-            // Lógica Botón Volver (Navegación)
+            // Lógica Botón Volver
             const btnVolver = document.getElementById('ficha-btn-volver');
             if (historialFicha.length > 1) {
                 btnVolver.classList.remove('escondido');
@@ -854,7 +856,7 @@
         }
 
         // ============================================================================
-        // LÓGICA DE OBTENCIÓN DE DATOS (API GOOGLE SHEETS)
+        // LÓGICA DE OBTENCIÓN DE DATOS
         // ============================================================================
         function parseGoogleSheetJSON(text) {
             const jsonStr = text.substring(47).slice(0, -2);
