@@ -24,6 +24,8 @@
             transition: background 1s ease-out;
             box-shadow: inset 0px 0px 10px rgba(0,0,0,0.1);
         }
+        
+        .shadow-semaforo { filter: drop-shadow(0px 2px 3px rgba(0,0,0,0.15)); }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen">
@@ -192,7 +194,7 @@
             </div>
             <div class="p-6 overflow-y-auto bg-slate-50 space-y-8">
                 
-                <!-- Gráfico de barras horizontales (Reemplaza las verticales) -->
+                <!-- Gráfico de barras horizontales -->
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-emerald-100">
                     <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Avance General por Pilar</h3>
                     <div id="pilares-chart" class="flex flex-col space-y-2">
@@ -226,7 +228,7 @@
             
             <div class="p-6 overflow-y-auto bg-slate-50">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Barras Ministerios (Funcionan como botones) -->
+                    <!-- Barras Ministerios -->
                     <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-emerald-100 p-6">
                         <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4">Ranking Institucional</h3>
                         <div id="ministerios-bars" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
@@ -234,7 +236,7 @@
                         </div>
                     </div>
 
-                    <!-- Gráfico de Torta (BOTÓN) -->
+                    <!-- Gráfico de Torta -->
                     <button onclick="abrirModalEstadoTareas()" class="bg-white rounded-2xl shadow-sm border border-emerald-100 p-6 flex flex-col items-center justify-center w-full hover:bg-emerald-50 hover:shadow-md hover:border-emerald-300 transition-all focus:outline-none group">
                         <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-6 text-center w-full group-hover:text-emerald-800 transition-colors">Estado Global de Tareas</h3>
                         
@@ -317,14 +319,34 @@
                         <div id="ficha-parent-texto" class="text-sm text-slate-800 font-bold leading-tight"></div>
                     </div>
 
-                    <!-- Etapa Actual -->
+                    <!-- NUEVO BLOQUE: Estado de Ejecución (Etapas y Avance) -->
                     <div id="ficha-etapa-container" class="bg-amber-50/50 p-4 rounded-xl border border-amber-100">
-                        <div class="flex items-center space-x-2 mb-2">
+                        <div class="flex items-center space-x-2 mb-3">
                             <svg class="w-4 h-4 text-amber-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                            <h4 class="text-sm font-bold text-emerald-900 uppercase tracking-wider">Etapa Actual</h4>
+                            <h4 class="text-sm font-bold text-emerald-900 uppercase tracking-wider">Estado de Ejecución</h4>
                         </div>
-                        <p id="ficha-etapa-texto" class="font-bold text-slate-800 text-base"></p>
-                        <p id="ficha-desc-etapa-texto" class="text-sm text-slate-600 mt-1"></p>
+                        
+                        <!-- Grid de Indicadores de Etapas -->
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div class="bg-white p-2.5 rounded-lg border border-amber-100 shadow-sm">
+                                <p class="text-[10px] text-slate-500 uppercase font-bold mb-0.5">Etapa Actual (Nº <span id="ficha-nro-etapa"></span>)</p>
+                                <p id="ficha-etapa-texto" class="font-bold text-emerald-950 text-sm leading-tight"></p>
+                            </div>
+                            <div class="bg-white p-2.5 rounded-lg border border-amber-100 shadow-sm">
+                                <p class="text-[10px] text-slate-500 uppercase font-bold mb-0.5">Avance General</p>
+                                <p id="ficha-etapa-avance" class="font-bold text-emerald-950 text-sm leading-tight"></p>
+                            </div>
+                            <div class="bg-white p-2.5 rounded-lg border border-amber-100 shadow-sm">
+                                <p class="text-[10px] text-slate-500 uppercase font-bold mb-0.5">Etapas Completadas</p>
+                                <p class="font-bold text-emerald-950 text-sm leading-tight"><span id="ficha-etapas-completadas"></span> de <span id="ficha-etapas-totales"></span></p>
+                            </div>
+                            <div class="bg-white p-2.5 rounded-lg border border-amber-100 shadow-sm">
+                                <p class="text-[10px] text-slate-500 uppercase font-bold mb-0.5">Subetapas Cumplidas</p>
+                                <p id="ficha-subetapas" class="font-bold text-emerald-950 text-sm leading-tight"></p>
+                            </div>
+                        </div>
+                        
+                        <p id="ficha-desc-etapa-texto" class="text-sm text-slate-600 mt-2 px-1"></p>
                     </div>
 
                     <!-- Descripción General -->
@@ -377,18 +399,18 @@
 
         const MOCK_DATA = {
             prioridades: [
-                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'completado', avance: '85', etapa: 'Ejecución Plena', desc_etapa: 'Implementación de créditos en todos los departamentos.', descripcion: 'Promoción de políticas públicas orientadas al crecimiento.' },
-                { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'en curso', avance: '62', etapa: 'Licitaciones', desc_etapa: 'Adquisición de equipamiento tecnológico.', descripcion: 'Fortalecimiento de las capacidades operativas.' },
-                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'pendiente', avance: '30', etapa: 'Diseño', desc_etapa: 'Revisión de malla curricular por comité experto.', descripcion: 'Actualización de currículas y modernización.' },
-                { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'completado', avance: '78', etapa: 'Evaluación', desc_etapa: 'Medición de impacto de campañas 2024.', descripcion: 'Expansión del seguro universal de salud.' },
+                { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'completado', avance: '85', nro_etapa_actual: '3', etapa: 'Ejecución Plena', desc_etapa: 'Implementación de créditos en todos los departamentos.', descripcion: 'Promoción de políticas públicas orientadas al crecimiento.', etapas_completadas: 2, etapas_totales: 3, subetapas_cumplidas: 12 },
+                { id: 2, nombre: 'Plan Nacional de Seguridad Ciudadana', estado: 'en curso', avance: '62', nro_etapa_actual: '2', etapa: 'Licitaciones', desc_etapa: 'Adquisición de equipamiento tecnológico.', descripcion: 'Fortalecimiento de las capacidades operativas.', etapas_completadas: 1, etapas_totales: 4, subetapas_cumplidas: 5 },
+                { id: 3, nombre: 'Transformación Educativa Integral', estado: 'pendiente', avance: '30', nro_etapa_actual: '1', etapa: 'Diseño', desc_etapa: 'Revisión de malla curricular por comité experto.', descripcion: 'Actualización de currículas y modernización.', etapas_completadas: 0, etapas_totales: 5, subetapas_cumplidas: 2 },
+                { id: 4, nombre: 'Salud Universal y Preventiva', estado: 'completado', avance: '78', nro_etapa_actual: '4', etapa: 'Evaluación', desc_etapa: 'Medición de impacto de campañas 2024.', descripcion: 'Expansión del seguro universal de salud.', etapas_completadas: 3, etapas_totales: 4, subetapas_cumplidas: 18 },
             ],
             pilares: [
-                { id: 1, nombre: 'Desarrollo Económico', estado: 'completado', avance: '80', descripcion: 'Fomento a la industria nacional', etapa: 'Crecimiento', desc_etapa: 'Impulso a nuevas empresas.'},
-                { id: 2, nombre: 'Desarrollo Social', estado: 'en curso', avance: '55', descripcion: 'Reducción de brechas de desigualdad.', etapa: 'Identificación', desc_etapa: 'Censo de población vulnerable.'},
-                { id: 3, nombre: 'Infraestructura', estado: 'pendiente', avance: '20', descripcion: 'Integración vial del país.', etapa: 'Prefactibilidad', desc_etapa: 'Estudios de terreno en carreteras.'},
-                { id: 4, nombre: 'Justicia Transparente', estado: 'completado', avance: '90', descripcion: 'Digitalización del órgano judicial.', etapa: 'Implementación', desc_etapa: 'Expediente electrónico activo.'},
-                { id: 5, nombre: 'Soberanía Alimentaria', estado: 'en curso', avance: '60', descripcion: 'Apoyo a productores agrícolas.', etapa: 'Subvención', desc_etapa: 'Entrega de fertilizantes en curso.'},
-                { id: 6, nombre: 'Medio Ambiente', estado: 'completado', avance: '75', descripcion: 'Planes de reforestación masiva.', etapa: 'Ejecución', desc_etapa: 'Siembra de 2 millones de plantines.'}
+                { id: 1, nombre: 'Desarrollo Económico', estado: 'completado', avance: '80', descripcion: 'Fomento a la industria nacional', nro_etapa_actual: '2', etapa: 'Crecimiento', desc_etapa: 'Impulso a nuevas empresas.', etapas_completadas: 1, etapas_totales: 3, subetapas_cumplidas: 8},
+                { id: 2, nombre: 'Desarrollo Social', estado: 'en curso', avance: '55', descripcion: 'Reducción de brechas de desigualdad.', nro_etapa_actual: '1', etapa: 'Identificación', desc_etapa: 'Censo de población vulnerable.'},
+                { id: 3, nombre: 'Infraestructura', estado: 'pendiente', avance: '20', descripcion: 'Integración vial del país.', nro_etapa_actual: '1', etapa: 'Prefactibilidad', desc_etapa: 'Estudios de terreno en carreteras.'},
+                { id: 4, nombre: 'Justicia Transparente', estado: 'completado', avance: '90', descripcion: 'Digitalización del órgano judicial.', nro_etapa_actual: '5', etapa: 'Implementación', desc_etapa: 'Expediente electrónico activo.', etapas_completadas: 4, etapas_totales: 5, subetapas_cumplidas: 22},
+                { id: 5, nombre: 'Soberanía Alimentaria', estado: 'en curso', avance: '60', descripcion: 'Apoyo a productores agrícolas.', nro_etapa_actual: '3', etapa: 'Subvención', desc_etapa: 'Entrega de fertilizantes en curso.'},
+                { id: 6, nombre: 'Medio Ambiente', estado: 'completado', avance: '75', descripcion: 'Planes de reforestación masiva.', nro_etapa_actual: '2', etapa: 'Ejecución', desc_etapa: 'Siembra de 2 millones de plantines.', etapas_completadas: 1, etapas_totales: 2, subetapas_cumplidas: 5}
             ],
             acciones: [
                 { id: 11, pilar_id: 1, nombre: 'Atracción de inversión extranjera', estado: 'completado', avance: '90', descripcion: 'Ruedas de negocios internacionales y simplificación de trámites.' }, 
@@ -396,12 +418,12 @@
                 { id: 21, pilar_id: 2, nombre: 'Construcción de viviendas', estado: 'en curso', avance: '50' }
             ],
             ministerios: [
-                { id: 1, rank: 1, nombre: 'Ministerio de Economía', estado: 'completado', puntaje: '92', etapa: 'Cierre', desc_etapa: 'Balance trimestral.', descripcion: 'Gestión de recursos del Estado.' },
-                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', estado: 'completado', puntaje: '88', etapa: 'Inspecciones', desc_etapa: 'Verificación de aguinaldos.', descripcion: 'Regulación laboral.' },
-                { id: 3, rank: 3, nombre: 'Ministerio de Salud', estado: 'en curso', puntaje: '65', etapa: 'Contingencia', desc_etapa: 'Control de epidemias regionales.', descripcion: 'Rectoría en salud pública.' },
-                { id: 4, rank: 4, nombre: 'Ministerio de Educación', estado: 'en curso', puntaje: '58', etapa: 'Matriculación', desc_etapa: 'Inscripción escolar gestión actual.', descripcion: 'Gestión educativa nacional.' },
-                { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'pendiente', puntaje: '35', etapa: 'Reformulación', desc_etapa: 'Ajuste de presupuestos de obras paradas.', descripcion: 'Infraestructura del Estado.' },
-                { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', estado: 'completado', puntaje: '85', etapa: 'Coordinación', desc_etapa: 'Reuniones con gobernaciones.', descripcion: 'Seguridad interna.' }
+                { id: 1, rank: 1, nombre: 'Ministerio de Economía', estado: 'completado', puntaje: '92', nro_etapa_actual: '4', etapa: 'Cierre', desc_etapa: 'Balance trimestral.', descripcion: 'Gestión de recursos del Estado.', etapas_completadas: 3, etapas_totales: 4, subetapas_cumplidas: 15 },
+                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', estado: 'completado', puntaje: '88', nro_etapa_actual: '2', etapa: 'Inspecciones', desc_etapa: 'Verificación de aguinaldos.', descripcion: 'Regulación laboral.', etapas_completadas: 1, etapas_totales: 3, subetapas_cumplidas: 6 },
+                { id: 3, rank: 3, nombre: 'Ministerio de Salud', estado: 'en curso', puntaje: '65', nro_etapa_actual: '2', etapa: 'Contingencia', desc_etapa: 'Control de epidemias regionales.', descripcion: 'Rectoría en salud pública.' },
+                { id: 4, rank: 4, nombre: 'Ministerio de Educación', estado: 'en curso', puntaje: '58', nro_etapa_actual: '1', etapa: 'Matriculación', desc_etapa: 'Inscripción escolar gestión actual.', descripcion: 'Gestión educativa nacional.' },
+                { id: 5, rank: 5, nombre: 'Ministerio de Obras Públicas', estado: 'pendiente', puntaje: '35', nro_etapa_actual: '1', etapa: 'Reformulación', desc_etapa: 'Ajuste de presupuestos de obras paradas.', descripcion: 'Infraestructura del Estado.' },
+                { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', estado: 'completado', puntaje: '85', nro_etapa_actual: '3', etapa: 'Coordinación', desc_etapa: 'Reuniones con gobernaciones.', descripcion: 'Seguridad interna.', etapas_completadas: 2, etapas_totales: 3, subetapas_cumplidas: 9 }
             ],
             tareas: [
                 { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto 2024', estado: 'completado', descripcion: 'Trámite finalizado y aprobado.', avance: '100' },
@@ -435,7 +457,20 @@
             return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-slate-100 text-slate-600 border-slate-300 shadow-sm">No Iniciado</span>`;
         }
 
-        // Extractor inteligente de porcentajes para gráficos dinámicos
+        function getBgColorByEstado(estado) {
+            const est = (estado || '').toLowerCase().trim();
+            if (est === 'verde' || est === 'completado') return 'bg-emerald-500';
+            if (est === 'amarillo' || est === 'en curso') return 'bg-amber-500';
+            if (est === 'rojo' || est === 'pendiente') return 'bg-rose-500';
+            if (est === 'gris' || est === 'no iniciado') return 'bg-slate-400';
+            return 'bg-slate-300';
+        }
+
+        function getNumber(val) {
+            if(!val) return 0;
+            return parseInt(val.toString().replace('%', '')) || 0;
+        }
+
         function getSmartAvance(item) {
             if (item.avance !== undefined && item.avance !== null && item.avance !== '') return getNumber(item.avance);
             if (item.puntaje !== undefined && item.puntaje !== null && item.puntaje !== '') return getNumber(item.puntaje);
@@ -446,25 +481,19 @@
             return 0;
         }
 
-        function getNumber(val) {
-            if(!val) return 0;
-            return parseInt(val.toString().replace('%', '')) || 0;
-        }
-
         // ============================================================================
         // GENERADORES DE GRÁFICOS (SVG KPI CIRCULAR & GAUGE)
         // ============================================================================
         
         const iconChevronRight = `<svg class="h-5 w-5 text-emerald-800/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
 
-        // KPI Ring: Anillo de progreso circular que reemplaza a los antiguos semáforos sólidos
         function getKpiRing(percent, estado, size = 48) {
             const color = getHexColor(estado);
-            const strokeW = size * 0.15; // Anillo más grueso (15% del tamaño total)
+            const strokeW = size * 0.15; 
             const radius = (size / 2) - (strokeW / 2);
             const circ = 2 * Math.PI * radius;
             const offset = circ - (percent / 100) * circ;
-            const fontSize = size * 0.28; // Tamaño de letra proporcional al círculo
+            const fontSize = size * 0.28; 
             
             return `
             <div class="relative inline-flex items-center justify-center shrink-0" style="width: ${size}px; height: ${size}px;">
@@ -476,7 +505,6 @@
             </div>`;
         }
 
-        // Gauge: Semicírculo central grande para la Ficha Informativa
         function createGaugeSVG(percent, color) {
             const radius = 40;
             const circumference = Math.PI * radius; 
@@ -511,7 +539,6 @@
 
         function renderPilares() {
             const chartContainer = document.getElementById('pilares-chart');
-            // Gráfico de Barras horizontales responsivo (Reemplazo del vertical inestable)
             const bars = currentData.pilares.map((pilar, index) => {
                 const avance = getSmartAvance(pilar);
                 const color = getHexColor(pilar.estado);
@@ -528,7 +555,6 @@
             }).join('');
             chartContainer.innerHTML = bars;
 
-            // Botones de Pilares (Reemplazan al antiguo acordeón)
             const buttonsContainer = document.getElementById('pilares-buttons-container');
             buttonsContainer.innerHTML = currentData.pilares.map(pilar => {
                 const numAcciones = currentData.acciones.filter(a => a.pilar_id === pilar.id).length;
@@ -548,7 +574,6 @@
         }
 
         function renderMinisteriosYPie() {
-            // Barras Ministerios como botones de acceso a la ficha
             const barsContainer = document.getElementById('ministerios-bars');
             barsContainer.innerHTML = currentData.ministerios.map((min, idx) => {
                 const puntaje = getSmartAvance(min);
@@ -565,7 +590,6 @@
                 </button>`;
             }).join('');
 
-            // Gráfico Torta
             let counts = { completado: 0, enCurso: 0, pendiente: 0, noIniciado: 0 };
             let total = currentData.tareas.length;
 
@@ -608,9 +632,6 @@
         function abrirModalMinisterios() { document.getElementById('modal-ministerios').classList.remove('escondido'); }
         function cerrarModalMinisterios() { document.getElementById('modal-ministerios').classList.add('escondido'); }
 
-        // ============================================================================
-        // MODAL: LISTADO POR ESTADO DE TAREAS
-        // ============================================================================
         function abrirModalEstadoTareas() {
             const container = document.getElementById('estado-tareas-container');
             const estados = [
@@ -736,12 +757,17 @@
                 parentContainer.classList.add('escondido');
             }
 
-            // Etapa
+            // Etapa y Progreso de Ejecución
             const etapaContainer = document.getElementById('ficha-etapa-container');
-            if (item.etapa) {
+            if (item.etapa || item.etapas_totales) {
                 etapaContainer.classList.remove('escondido');
-                document.getElementById('ficha-etapa-texto').innerText = item.etapa;
-                document.getElementById('ficha-desc-etapa-texto').innerText = item.desc_etapa || '';
+                document.getElementById('ficha-etapa-texto').innerText = item.etapa || 'No especificada';
+                document.getElementById('ficha-nro-etapa').innerText = item.nro_etapa_actual ? `${item.nro_etapa_actual}` : '-';
+                document.getElementById('ficha-etapa-avance').innerText = `${avance}%`;
+                document.getElementById('ficha-etapas-completadas').innerText = item.etapas_completadas || '0';
+                document.getElementById('ficha-etapas-totales').innerText = item.etapas_totales || '0';
+                document.getElementById('ficha-subetapas').innerText = item.subetapas_cumplidas || '0';
+                document.getElementById('ficha-desc-etapa-texto').innerText = item.desc_etapa || 'Sin detalles de etapa registrados.';
             } else {
                 etapaContainer.classList.add('escondido');
             }
