@@ -122,7 +122,7 @@
                             <svg class="h-10 w-10 text-sky-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
                         </div>
                         <div class="text-left">
-                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-sm">Cumplimiento de los Pilares</h2>
+                            <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-sm">Cumplimiento de los Ejes</h2>
                             <p class="text-blue-100 mt-1 font-medium">Ejes estratégicos de desarrollo</p>
                         </div>
                     </div>
@@ -193,7 +193,7 @@
             <div class="px-6 py-4 border-b border-emerald-100 dark:border-emerald-800 flex justify-between items-center bg-emerald-50/50 dark:bg-emerald-900/30">
                 <div class="flex items-center space-x-3">
                     <svg class="h-6 w-6 text-emerald-700 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
-                    <h2 class="text-xl font-bold text-emerald-900 dark:text-emerald-400">Cumplimiento de los Pilares</h2>
+                    <h2 class="text-xl font-bold text-emerald-900 dark:text-emerald-400">Cumplimiento de los Ejes</h2>
                 </div>
                 <button onclick="cerrarModalPilares()" class="p-2 hover:bg-emerald-100 dark:hover:bg-emerald-800/50 rounded-full transition-colors text-emerald-700 dark:text-emerald-400">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -201,7 +201,7 @@
             </div>
             <div class="p-6 overflow-y-auto bg-slate-50 dark:bg-slate-900 space-y-8">
                 <div>
-                    <h3 class="text-lg font-bold text-emerald-900 dark:text-emerald-400 border-b border-emerald-200 dark:border-emerald-800/50 pb-2 mb-4">Seleccione un Pilar para ver detalles y acciones</h3>
+                    <h3 class="text-lg font-bold text-emerald-900 dark:text-emerald-400 border-b border-emerald-200 dark:border-emerald-800/50 pb-2 mb-4">Seleccione un Eje para ver detalles y acciones</h3>
                     <div id="pilares-buttons-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <!-- Generado por JS -->
                     </div>
@@ -342,7 +342,7 @@
 
                     <!-- Descripción General -->
                     <div>
-                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Descripción Estratégica</h4>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Descripción</h4>
                         <div class="bg-slate-50 dark:bg-slate-700 p-4 rounded-xl border border-slate-200 dark:border-slate-600 text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap" id="ficha-descripcion"></div>
                     </div>
 
@@ -668,7 +668,7 @@
                         ${getSolidKpiCircle(avance, 56)}
                         <div>
                             <h3 class="font-bold text-sm text-emerald-950 dark:text-emerald-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400">${pilar.nombre}</h3>
-                            <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">${numAcciones} Acciones asociadas</p>
+                            <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">${numAcciones} Prioridades asociadas</p>
                         </div>
                     </div>
                     <div>${iconChevronRight}</div>
@@ -901,7 +901,7 @@
             if (coleccion === 'pilares') {
                 hijos = currentData.acciones.filter(a => a.pilar_id === id);
                 hijoCol = 'acciones';
-                hijosTitle.innerText = "Acciones Estratégicas Asociadas";
+                hijosTitle.innerText = "Prioridades Asociadas";
             } else if (coleccion === 'ministerios') {
                 hijos = currentData.tareas.filter(t => t.ministerio_id === id);
                 hijoCol = 'tareas';
