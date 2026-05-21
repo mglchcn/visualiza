@@ -387,6 +387,7 @@
         const SPREADSHEET_ID = '1mq2kuzRNc2oC8c3vLXN6ex9z4JihfUUbCmr6GKMuYeQ';
         const SHEET_NAMES = { PRIORIDADES: 'Prioridades', PILARES: 'Pilares', MINISTERIOS: 'Ministerios', ACCIONES: 'Acciones', TAREAS: 'Tareas' };
 
+        // Añadida la variable de 'ejecucion' a los datos MOCK
         const MOCK_DATA = {
             prioridades: [
                 { id: 1, nombre: 'Reactivación Económica y Empleo', estado: 'completado', avance: '85', nro_etapa_actual: '3', etapa: 'Ejecución Plena', desc_etapa: 'Implementación de créditos.', descripcion: 'Promoción de políticas públicas.', etapas_completadas: 2, etapas_totales: 3, subetapas_cumplidas: 12 },
@@ -408,12 +409,12 @@
                 { id: 21, pilar_id: 2, nombre: 'Construcción de viviendas', avance: '50' }
             ],
             ministerios: [
-                { id: 1, rank: 1, nombre: 'Ministerio de Economía', avance: '92' },
-                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', avance: '88' },
-                { id: 3, rank: 3, nombre: 'Ministerio de Salud', avance: '65' },
-                { id: 4, rank: 4, nombre: 'Ministerio de Educación', avance: '58' },
-                { id: 5, rank: 5, nombre: 'Min. de Obras Públicas', avance: '35' },
-                { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', avance: '85' }
+                { id: 1, rank: 1, nombre: 'Ministerio de Economía', avance: '92', ejecucion: '85%' },
+                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', avance: '88', ejecucion: '76%' },
+                { id: 3, rank: 3, nombre: 'Ministerio de Salud', avance: '65', ejecucion: '42%' },
+                { id: 4, rank: 4, nombre: 'Ministerio de Educación', avance: '58', ejecucion: '50%' },
+                { id: 5, rank: 5, nombre: 'Min. de Obras Públicas', avance: '35', ejecucion: '12%' },
+                { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', avance: '85', ejecucion: '91%' }
             ],
             tareas: [
                 { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto', avance: '100' },
@@ -507,7 +508,6 @@
         // ============================================================================
         const iconChevronRight = `<svg class="h-5 w-5 text-emerald-800/40 dark:text-emerald-400/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`;
 
-        // Registro para evitar conflictos entre animaciones solapadas
         const activeAnimations = new WeakMap();
 
         function animateValue(obj, start, end, duration, isPercent = true) {
@@ -518,7 +518,7 @@
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const easeOut = 1 - Math.pow(1 - progress, 3); // Cubic Ease Out
+                const easeOut = 1 - Math.pow(1 - progress, 3); 
                 const currentVal = Math.floor(easeOut * (end - start) + start);
                 
                 obj.innerHTML = currentVal + (isPercent ? '%' : '');
@@ -526,48 +526,40 @@
                 if (progress < 1) {
                     activeAnimations.set(obj, requestAnimationFrame(step));
                 } else {
-                    obj.innerHTML = end + (isPercent ? '%' : ''); // Fuerza el valor exacto al final
+                    obj.innerHTML = end + (isPercent ? '%' : '');
                     activeAnimations.delete(obj);
                 }
             };
             activeAnimations.set(obj, requestAnimationFrame(step));
         }
 
-        // Función Maestra que dispara todas las animaciones en un contenedor dado
         function playAnimations(containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
 
-            // 1. Reiniciar Gauges al 0% (Estado inicial instantáneo)
             container.querySelectorAll('.gauge-path').forEach(path => {
                 const circ = path.getAttribute('data-circumference');
-                path.style.transition = 'none'; // Quitar transición para reseteo inmediato
+                path.style.transition = 'none';
                 path.style.strokeDashoffset = circ;
             });
             
-            // 2. Reiniciar Textos al 0
             container.querySelectorAll('.gauge-text, .kpi-text').forEach(text => {
                 text.innerHTML = '0' + (text.classList.contains('no-percent') ? '' : '%');
             });
 
-            // Forzar Reflow del navegador para que reconozca el reset
             void container.offsetWidth;
 
-            // 3. Aplicar Animación de llenado
             container.querySelectorAll('.gauge-path').forEach(path => {
-                // Restauramos la transición con curva elegante
                 path.style.transition = 'stroke-dashoffset 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
                 path.style.strokeDashoffset = path.getAttribute('data-target-offset');
             });
 
-            // 4. Iniciar contadores numéricos
             container.querySelectorAll('.gauge-text, .kpi-text').forEach(text => {
                 const target = parseInt(text.getAttribute('data-target-percent')) || 0;
                 animateValue(text, 0, target, 1500, !text.classList.contains('no-percent'));
             });
         }
 
-        // Animador Exclusivo para el Gráfico de Torta (Pie Chart) usando conic-gradient
         let pieAnimationId = null;
         function playPieAnimation() {
             const pieEl = document.getElementById('pie-chart');
@@ -576,7 +568,6 @@
 
             if (pieAnimationId) cancelAnimationFrame(pieAnimationId);
 
-            // Animar el número central Total (0 a X)
             animateValue(totalEl, 0, globalPieData.total, 1500, false);
 
             let startTimestamp = null;
@@ -587,7 +578,6 @@
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeOut = 1 - Math.pow(1 - progress, 3);
 
-                // Multiplicamos el objetivo por el progreso de la curva de aceleración
                 const currentP1 = easeOut * globalPieData.p1;
                 const currentP2 = easeOut * globalPieData.p2;
                 const currentP3 = easeOut * globalPieData.p3;
@@ -613,7 +603,6 @@
             const textColor = isYellow ? '#451a03' : '#ffffff'; 
             const fontSize = size * 0.32;
             
-            // Hemos agregado la clase "kpi-text" y "data-target-percent"
             return `
             <div class="relative inline-flex items-center justify-center shrink-0 rounded-full shadow-md transition-transform hover:scale-105"
                   style="width: ${size}px; height: ${size}px; background-color: ${color};">
@@ -626,7 +615,6 @@
             const circumference = Math.PI * radius; 
             const offset = circumference - (percent / 100) * circumference;
             
-            // Hemos agregado "gauge-path", "gauge-text" y atributos data para guiar a JS
             return `
             <svg viewBox="0 0 100 55" class="w-full h-full overflow-visible drop-shadow-md">
                 <path d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="currentColor" class="text-slate-200 dark:text-slate-700/50" stroke-width="12" stroke-linecap="round" />
@@ -680,6 +668,11 @@
             const barsContainer = document.getElementById('ministerios-bars');
             barsContainer.innerHTML = currentData.ministerios.map((min, idx) => {
                 const puntaje = getSmartAvance(min);
+                
+                // Procesar la ejecución presupuestaria
+                const ejecucionRaw = min.ejecucion || min['ejecucion presupuestaria'] || min.presupuesto || 'N/D';
+                const ejecucionFormat = ejecucionRaw !== 'N/D' ? ejecucionRaw + (ejecucionRaw.toString().includes('Bs.') ? '' : ' Bs.') : 'N/D';
+
                 return `
                 <button onclick="abrirFichaRaiz('ministerios', ${min.id})" class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors mb-4 flex items-center justify-between">
                     <div class="flex items-center space-x-3 sm:space-x-4 pr-2">
@@ -687,6 +680,12 @@
                         <div class="flex flex-col">
                             <span class="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">Ranking #${idx+1}</span>
                             <span class="text-sm font-bold text-emerald-950 dark:text-emerald-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">${min.nombre}</span>
+                            
+                            <!-- NUEVA LÍNEA: Ejecución Presupuestaria -->
+                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center">
+                                <svg class="w-3 h-3 mr-1 text-emerald-600 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                Ejec. Presupuestaria: <strong class="ml-1 text-emerald-700 dark:text-emerald-300">${ejecucionFormat}</strong>
+                            </span>
                         </div>
                     </div>
                     <div>${iconChevronRight}</div>
@@ -704,14 +703,12 @@
                 else counts.noIniciado++;
             });
 
-            // Guardar para la animación dinámica
             if (total > 0) {
                 globalPieData.p1 = (counts.completado / total) * 100;
                 globalPieData.p2 = globalPieData.p1 + ((counts.enCursoAm / total) * 100);
                 globalPieData.p3 = globalPieData.p2 + ((counts.enCursoRo / total) * 100);
                 globalPieData.total = total;
 
-                // Estado base (se animará en abrirModalMinisterios)
                 document.getElementById('pie-chart').style.background = `conic-gradient(${C_ROJO_INTENSO} 0% 100%)`;
                 document.getElementById('pie-total').innerText = '0';
 
@@ -877,7 +874,6 @@
                 document.getElementById('ficha-etapa-texto').innerText = item.etapa || 'No especificada';
                 document.getElementById('ficha-nro-etapa').innerText = item.nro_etapa_actual ? `${item.nro_etapa_actual}` : '-';
                 
-                // Setear para animación
                 const avanceEl = document.getElementById('ficha-etapa-avance');
                 avanceEl.className = "kpi-text font-bold text-emerald-950 dark:text-emerald-300 text-sm leading-tight";
                 avanceEl.setAttribute('data-target-percent', avance);
@@ -936,7 +932,6 @@
 
             document.getElementById('modal-ficha').classList.remove('escondido');
             
-            // Disparamos animaciones justo al final para la ficha
             playAnimations('modal-ficha');
         }
 
