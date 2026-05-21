@@ -470,7 +470,7 @@
         const C_VERDE = '#10b981'; 
         const C_AMARILLO = '#f59e0b';
         const C_ROJO_CLARO = '#ef4444';
-        const C_ROJO_INTENSO = '#991b1b';
+        const C_ROJO_INTENSO = '#140000';
 
         function getHexColorByPercent(percent) {
             if (percent === 100) return C_VERDE;
@@ -483,7 +483,7 @@
             if (percent === 100) return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/50 shadow-sm">Completado</span>`;
             if (percent >= 30) return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-800/50 shadow-sm">En Curso</span>`;
             if (percent > 0) return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800/50 shadow-sm">En Curso</span>`;
-            return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-red-100 dark:bg-red-900/50 text-red-900 dark:text-red-300 border-red-300 dark:border-red-800 shadow-sm">No Iniciado</span>`;
+            return `<span class="px-3 py-1 text-[11px] font-bold uppercase tracking-wider rounded-full border bg-black dark:bg-black-900/50 text-red-900 dark:text-red-300 border-black-300 dark:border-black-800 shadow-sm">No Iniciado</span>`;
         }
 
         function getNumber(val) {
