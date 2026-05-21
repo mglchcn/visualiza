@@ -234,7 +234,7 @@
 
                     <!-- Gráfico de Torta -->
                     <button onclick="abrirModalEstadoTareas()" class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-emerald-100 dark:border-emerald-800/50 p-6 flex flex-col items-center justify-center w-full hover:bg-emerald-50 dark:hover:bg-slate-700 hover:shadow-md transition-all focus:outline-none group">
-                        <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-6 text-center w-full group-hover:text-emerald-800 dark:group-hover:text-emerald-400 transition-colors">Estado Global de Tareas</h3>
+                        <h3 class="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-6 text-center w-full group-hover:text-emerald-800 dark:group-hover:text-emerald-400 transition-colors">Estado Global de Prioridades</h3>
                         
                         <div class="relative w-48 h-48 mb-8">
                             <div id="pie-chart" class="w-full h-full pie-chart" style="background: conic-gradient(#475569 0% 100%);"></div>
@@ -262,7 +262,7 @@
             <div class="px-6 py-4 border-b border-emerald-100 dark:border-emerald-800 flex justify-between items-center bg-emerald-50/50 dark:bg-emerald-900/30">
                 <div class="flex items-center space-x-3">
                     <svg class="h-6 w-6 text-emerald-700 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                    <h2 class="text-xl font-bold text-emerald-900 dark:text-emerald-400">Listado de Tareas por Estado</h2>
+                    <h2 class="text-xl font-bold text-emerald-900 dark:text-emerald-400">Listado de Prioridades por Estado</h2>
                 </div>
                 <button onclick="cerrarModalEstadoTareas()" class="p-2 hover:bg-emerald-100 dark:hover:bg-emerald-800/50 rounded-full transition-colors text-emerald-700 dark:text-emerald-400">
                     <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -670,46 +670,67 @@
                 const puntaje = getSmartAvance(min);
                 
                 // Procesar la ejecución presupuestaria
-                const ejecucionRaw = min.ejecucion || min['ejecucion presupuestaria'] || min.presupuesto || 'N/D';
-                const ejecucionFormat = ejecucionRaw !== 'N/D' ? ejecucionRaw + (ejecucionRaw.toString().includes('%') ? '' : '%') : 'N/D';
+                const ejecucionRaw = min.ejecucion || min['ejecucion presupuestaria'] || min.presupuesto || 'N/R';
+                const ejecucionFormat = ejecucionRaw !== 'N/R' ? ejecucionRaw + (ejecucionRaw.toString().includes('%') ? '' : '%') : 'N/R';
+                const ejecucionNum = getNumber(ejecucionRaw);
 
                 // Procesar la ejecución de inversión
-                const ejecucionInvRaw = min['ejecucion inversion'] || min.ejecucion_inversion || min['porcentaje de ejecucion de inversion'] || 'N/D';
-                const ejecucionInvFormat = ejecucionInvRaw !== 'N/D' ? ejecucionInvRaw + (ejecucionInvRaw.toString().includes('%') ? '' : '%') : 'N/D';
+                const ejecucionInvRaw = min['ejecucion inversion'] || min.ejecucion_inversion || min['porcentaje de ejecucion de inversion'] || 'N/R';
+                const ejecucionInvFormat = ejecucionInvRaw !== 'N/R' ? ejecucionInvRaw + (ejecucionInvRaw.toString().includes('%') ? '' : '%') : 'N/R';
+                const ejecucionInvNum = getNumber(ejecucionInvRaw);
 
                 // Procesar el monto de inversión
-                const montoInvRaw = min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/D';
-                //const montoInvFormat = montoInvRaw !== 'N/D' ? (montoInvRaw.toString().includes('Bs') ? montoInvRaw : montoInvRaw + ' Bs.') : 'N/D';
-                const montoInvFormat = (m => m === 'N/D' ? 'N/D' : (parseFloat(m.toString().replace(/[^0-9.-]+/g, "")) || 0).toLocaleString('es-BO', {minimumFractionDigits: 2}) + ' Bs.')(min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/D');
+                const montoInvRaw = min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/R';
+                //const montoInvFormat = montoInvRaw !== 'N/R' ? (montoInvRaw.toString().includes('Bs') ? montoInvRaw : montoInvRaw + ' Bs.') : 'N/R';
+                const montoInvFormat = (m => m === 'N/R' ? 'N/R' : (parseFloat(m.toString().replace(/[^0-9.-]+/g, "")) || 0).toLocaleString('es-BO', {maximumFractionDigits: 0}) + ' Bs.')(min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/R');
 
                 return `
-                <button onclick="abrirFichaRaiz('ministerios', ${min.id})" class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors mb-4 flex items-center justify-between">
-                    <div class="flex items-center space-x-3 sm:space-x-4 pr-2">
-                        ${getSolidKpiCircle(puntaje, 48)}
-                        <div class="flex flex-col">
+                <button onclick="abrirFichaRaiz('ministerios', ${min.id})" class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-3 rounded-xl transition-colors mb-4 flex items-start justify-between border border-transparent hover:border-emerald-100 dark:hover:border-slate-600">
+                    <div class="flex items-start space-x-3 sm:space-x-4 pr-2 w-full">
+                        <div class="mt-1 flex flex-col items-center shrink-0 w-14 sm:w-16">
+                            ${getSolidKpiCircle(puntaje, 48)}
+                            <span class="text-[8px] sm:text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tighter text-center mt-2 leading-[1.1]">Avance de<br>Prioridades</span>
+                        </div>
+                        <div class="flex flex-col w-full pr-2">
                             <span class="text-[10px] sm:text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-0.5">Ranking #${idx+1}</span>
-                            <span class="text-sm font-bold text-emerald-950 dark:text-emerald-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight">${min.nombre}</span>
+                            <span class="text-sm font-bold text-emerald-950 dark:text-emerald-300 group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors leading-tight mb-2.5">${min.nombre}</span>
                             
-                            <!-- NUEVA LÍNEA: Ejecución Presupuestaria -->
-                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center">
-                                <svg class="w-3 h-3 mr-1 text-emerald-600 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                                Ejec. Presupuestaria: <strong class="ml-1 text-emerald-700 dark:text-emerald-300">${ejecucionFormat}</strong>
-                            </span>
+                            <!-- Barra Ejecución Presupuestaria -->
+                            <div class="w-full mb-2.5">
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center leading-none">
+                                        <svg class="w-3 h-3 mr-1 text-emerald-600 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                        Ejec. Presupuestaria
+                                    </span>
+                                    <strong class="text-[10px] text-emerald-700 dark:text-emerald-300 leading-none">${ejecucionFormat}</strong>
+                                </div>
+                                <div class="w-full bg-slate-200 dark:bg-slate-600/50 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-emerald-500 h-1.5 rounded-full" style="width: ${ejecucionNum}%"></div>
+                                </div>
+                            </div>
                             
-                            <!-- NUEVA LÍNEA: Porcentaje de Ejecución de Inversión -->
-                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center">
-                                <svg class="w-3 h-3 mr-1 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
-                                Ejec. Inversión: <strong class="ml-1 text-blue-700 dark:text-blue-300">${ejecucionInvFormat}</strong>
-                            </span>
+                            <!-- Barra Ejecución de Inversión -->
+                            <div class="w-full mb-2">
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 flex items-center leading-none">
+                                        <svg class="w-3 h-3 mr-1 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                        Ejec. Inversión
+                                    </span>
+                                    <strong class="text-[10px] text-blue-700 dark:text-blue-300 leading-none">${ejecucionInvFormat}</strong>
+                                </div>
+                                <div class="w-full bg-slate-200 dark:bg-slate-600/50 rounded-full h-1.5 overflow-hidden">
+                                    <div class="bg-blue-500 h-1.5 rounded-full" style="width: ${ejecucionInvNum}%"></div>
+                                </div>
+                            </div>
 
-                            <!-- NUEVA LÍNEA: Monto de Inversión -->
-                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center">
-                                <svg class="w-3 h-3 mr-1 text-amber-600 dark:text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                            <!-- Monto de Inversión -->
+                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1.5 flex items-center bg-slate-50 dark:bg-slate-800/50 w-fit px-2.5 py-1 rounded-md border border-slate-100 dark:border-slate-700/50">
+                                <svg class="w-3 h-3 mr-1.5 text-amber-600 dark:text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                                 Monto Inversión: <strong class="ml-1 text-amber-700 dark:text-amber-300">${montoInvFormat}</strong>
                             </span>
                         </div>
                     </div>
-                    <div>${iconChevronRight}</div>
+                    <div class="pt-4">${iconChevronRight}</div>
                 </button>`;
             }).join('');
 
@@ -862,7 +883,7 @@
             if(coleccion === 'pilares') subtitulo = "Pilar Estratégico";
             if(coleccion === 'ministerios') subtitulo = "Ministerio";
             if(coleccion === 'acciones') subtitulo = "Acción Estratégica";
-            if(coleccion === 'tareas') subtitulo = "Tarea Ministerial";
+            if(coleccion === 'tareas') subtitulo = "Prioridad Ministerial";
 
             const avance = getSmartAvance(item);
             const color = getHexColorByPercent(avance);
@@ -922,7 +943,7 @@
             } else if (coleccion === 'ministerios') {
                 hijos = currentData.tareas.filter(t => t.ministerio_id === id);
                 hijoCol = 'tareas';
-                hijosTitle.innerText = "Tareas Específicas Asignadas";
+                hijosTitle.innerText = "Prioridades";
             }
 
             if (hijos.length > 0) {
