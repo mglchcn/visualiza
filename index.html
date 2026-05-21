@@ -409,12 +409,12 @@
                 { id: 21, pilar_id: 2, nombre: 'Construcción de viviendas', avance: '50' }
             ],
             ministerios: [
-                { id: 1, rank: 1, nombre: 'Ministerio de Economía', avance: '92', ejecucion: '85%' },
-                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', avance: '88', ejecucion: '76%' },
-                { id: 3, rank: 3, nombre: 'Ministerio de Salud', avance: '65', ejecucion: '42%' },
-                { id: 4, rank: 4, nombre: 'Ministerio de Educación', avance: '58', ejecucion: '50%' },
-                { id: 5, rank: 5, nombre: 'Min. de Obras Públicas', avance: '35', ejecucion: '12%' },
-                { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', avance: '85', ejecucion: '91%' }
+                { id: 1, rank: 1, nombre: 'Ministerio de Economía', avance: '92', ejecucion: '85%', ejecucion_inversion: '78%', monto_inversion: '150.500.000' },
+                { id: 2, rank: 2, nombre: 'Ministerio de Trabajo', avance: '88', ejecucion: '76%', ejecucion_inversion: '65%', monto_inversion: '45.200.000' },
+                { id: 3, rank: 3, nombre: 'Ministerio de Salud', avance: '65', ejecucion: '42%', ejecucion_inversion: '30%', monto_inversion: '320.000.000' },
+                { id: 4, rank: 4, nombre: 'Ministerio de Educación', avance: '58', ejecucion: '50%', ejecucion_inversion: '45%', monto_inversion: '210.000.000' },
+                { id: 5, rank: 5, nombre: 'Min. de Obras Públicas', avance: '35', ejecucion: '12%', ejecucion_inversion: '10%', monto_inversion: '850.000.000' },
+                { id: 6, rank: 6, nombre: 'Ministerio de Gobierno', avance: '85', ejecucion: '91%', ejecucion_inversion: '88%', monto_inversion: '120.000.000' }
             ],
             tareas: [
                 { id: 1, ministerio_id: 1, nombre: 'Aprobación del Presupuesto', avance: '100' },
@@ -671,7 +671,16 @@
                 
                 // Procesar la ejecución presupuestaria
                 const ejecucionRaw = min.ejecucion || min['ejecucion presupuestaria'] || min.presupuesto || 'N/D';
-                const ejecucionFormat = ejecucionRaw !== 'N/D' ? ejecucionRaw + (ejecucionRaw.toString().includes('Bs.') ? '' : ' Bs.') : 'N/D';
+                const ejecucionFormat = ejecucionRaw !== 'N/D' ? ejecucionRaw + (ejecucionRaw.toString().includes('%') ? '' : '%') : 'N/D';
+
+                // Procesar la ejecución de inversión
+                const ejecucionInvRaw = min['ejecucion inversion'] || min.ejecucion_inversion || min['porcentaje de ejecucion de inversion'] || 'N/D';
+                const ejecucionInvFormat = ejecucionInvRaw !== 'N/D' ? ejecucionInvRaw + (ejecucionInvRaw.toString().includes('%') ? '' : '%') : 'N/D';
+
+                // Procesar el monto de inversión
+                const montoInvRaw = min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/D';
+                //const montoInvFormat = montoInvRaw !== 'N/D' ? (montoInvRaw.toString().includes('Bs') ? montoInvRaw : montoInvRaw + ' Bs.') : 'N/D';
+                const montoInvFormat = (m => m === 'N/D' ? 'N/D' : (parseFloat(m.toString().replace(/[^0-9.-]+/g, "")) || 0).toLocaleString('es-BO', {minimumFractionDigits: 2}) + ' Bs.')(min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/D');
 
                 return `
                 <button onclick="abrirFichaRaiz('ministerios', ${min.id})" class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-2 rounded-lg transition-colors mb-4 flex items-center justify-between">
@@ -685,6 +694,18 @@
                             <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center">
                                 <svg class="w-3 h-3 mr-1 text-emerald-600 dark:text-emerald-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                                 Ejec. Presupuestaria: <strong class="ml-1 text-emerald-700 dark:text-emerald-300">${ejecucionFormat}</strong>
+                            </span>
+                            
+                            <!-- NUEVA LÍNEA: Porcentaje de Ejecución de Inversión -->
+                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center">
+                                <svg class="w-3 h-3 mr-1 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                Ejec. Inversión: <strong class="ml-1 text-blue-700 dark:text-blue-300">${ejecucionInvFormat}</strong>
+                            </span>
+
+                            <!-- NUEVA LÍNEA: Monto de Inversión -->
+                            <span class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 flex items-center">
+                                <svg class="w-3 h-3 mr-1 text-amber-600 dark:text-amber-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                                Monto Inversión: <strong class="ml-1 text-amber-700 dark:text-amber-300">${montoInvFormat}</strong>
                             </span>
                         </div>
                     </div>
