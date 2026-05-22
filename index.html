@@ -670,19 +670,19 @@
                 const puntaje = getSmartAvance(min);
                 
                 // Procesar la ejecución presupuestaria
-                const ejecucionRaw = min.ejecucion || min['ejecucion presupuestaria'] || min.presupuesto || 'N/R';
-                const ejecucionFormat = ejecucionRaw !== 'N/R' ? ejecucionRaw + (ejecucionRaw.toString().includes('%') ? '' : '%') : 'N/R';
+                const ejecucionRaw = min.ejecucion || min['ejecucion presupuestaria'] || min.presupuesto || 'No Aplica';
+                const ejecucionFormat = ejecucionRaw !== 'No Aplica' ? ejecucionRaw + (ejecucionRaw.toString().includes('%') ? '' : '%') : 'No Aplica';
                 const ejecucionNum = getNumber(ejecucionRaw);
 
                 // Procesar la ejecución de inversión
-                const ejecucionInvRaw = min['ejecucion inversion'] || min.ejecucion_inversion || min['porcentaje de ejecucion de inversion'] || 'N/R';
-                const ejecucionInvFormat = ejecucionInvRaw !== 'N/R' ? ejecucionInvRaw + (ejecucionInvRaw.toString().includes('%') ? '' : '%') : 'N/R';
+                const ejecucionInvRaw = min['ejecucion inversion'] || min.ejecucion_inversion || min['porcentaje de ejecucion de inversion'] || 'No Aplica';
+                const ejecucionInvFormat = ejecucionInvRaw !== 'No Aplica' ? ejecucionInvRaw + (ejecucionInvRaw.toString().includes('%') ? '' : '%') : 'No Aplica';
                 const ejecucionInvNum = getNumber(ejecucionInvRaw);
 
                 // Procesar el monto de inversión
-                const montoInvRaw = min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/R';
-                //const montoInvFormat = montoInvRaw !== 'N/R' ? (montoInvRaw.toString().includes('Bs') ? montoInvRaw : montoInvRaw + ' Bs.') : 'N/R';
-                const montoInvFormat = (m => m === 'N/R' ? 'N/R' : (parseFloat(m.toString().replace(/[^0-9.-]+/g, "")) || 0).toLocaleString('es-BO', {maximumFractionDigits: 0}) + ' Bs.')(min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'N/R');
+                const montoInvRaw = min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'No Aplica';
+                //const montoInvFormat = montoInvRaw !== 'No Aplica' ? (montoInvRaw.toString().includes('Bs') ? montoInvRaw : montoInvRaw + ' Bs.') : 'No Aplica';
+                const montoInvFormat = (m => m === 'No Aplica' ? 'No Aplica' : (parseFloat(m.toString().replace(/[^0-9.-]+/g, "")) || 0).toLocaleString('es-BO', {maximumFractionDigits: 0}) + ' Bs.')(min['monto inversion'] || min.monto_inversion || min['monto de inversion'] || 'No Aplica');
 
                 return `
                 <button onclick="abrirFichaRaiz('ministerios', ${min.id})" class="w-full group cursor-pointer text-left bg-transparent border-0 focus:outline-none hover:bg-emerald-50 dark:hover:bg-slate-700 p-3 rounded-xl transition-colors mb-4 flex items-start justify-between border border-transparent hover:border-emerald-100 dark:hover:border-slate-600">
